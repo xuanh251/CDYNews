@@ -15,9 +15,10 @@ namespace CDYNews.Service
 
         void Update(PostCategory postCategory);
 
-        void Delete(int id);
+        PostCategory Delete(int id);
 
         IEnumerable<PostCategory> GetAll();
+        IEnumerable<PostCategory> GetAll(string keyword);
 
         IEnumerable<PostCategory> GetAllByParentId(int parentId);
 
@@ -42,14 +43,26 @@ namespace CDYNews.Service
             return _postCategoryRepository.Add(postCategory);
         }
 
-        public void Delete(int id)
+        public PostCategory Delete(int id)
         {
-            _postCategoryRepository.Delete(id);
+            return _postCategoryRepository.Delete(id);
         }
 
         public IEnumerable<PostCategory> GetAll()
         {
             return _postCategoryRepository.GetAll();
+        }
+
+        public IEnumerable<PostCategory> GetAll(string keyword)
+        {
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return _postCategoryRepository.GetMulti(s => s.Name.Contains(keyword) || s.Description.Contains(keyword) || s.Alias.Contains(keyword));
+            }
+            else
+            {
+                return _postCategoryRepository.GetAll();
+            }
         }
 
         public IEnumerable<PostCategory> GetAllByParentId(int parentId)
