@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CDYNews.Common
+namespace CDYNews.Data.Infrastructure
 {
-    class Class2
+    public interface IDbFactory : IDisposable
     {
+        CDYNewsDbContext Init();
     }
 }
