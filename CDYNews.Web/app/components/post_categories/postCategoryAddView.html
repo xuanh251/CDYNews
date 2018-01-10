@@ -1,10 +1,101 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+﻿<section class="content-header">
+    <h1>
+        Thêm mới thể loại tin
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+        <li><a ui-sref="post_categories">Thể loại tin tức</a></li>
+        <li class="active">Thêm mới</li>
+    </ol>
+</section>
+<!-- Main -->
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Thêm mới</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" novalidate name="frmAddPostCategory" role="form" ng-submit="AddPostCategory()">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Tên thể loại</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" required placeholder="Tên thể loại" ng-change="GetSeoTitle()" name="name" ng-model="postCategory.Name">
+                        <span ng-show="frmAddPostCategory.name.$invalid" class="has-error">Phải nhập tên thể loại.</span>
+                        <span ng-show="frmAddPostCategory.name.$error.maxlength" class="has-error">Tên thể loại không được vượt quá 256 ký tự.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Tiêu đề SEO</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" required placeholder="Tiêu đề SEO" name="alias" ng-model="postCategory.Alias">
+                        <span ng-show="frmAddPostCategory.alias.$invalid" class="has-error">Phải nhập tiêu đề SEO</span>
+                        <span ng-show="frmAddPostCategory.alias.$error.maxlength" class="has-error">Tiêu đề SEO không được vượt quá 256 ký tự.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Mô tả ngắn</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Mô tả ngắn" name="description" ng-maxlength="500" ng-model="postCategory.Description">
+                        <span ng-show="frmAddPostCategory.description.$error.maxlength" class="has-error">Mô tả không được vượt quá 500 ký tự.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Danh mục cha</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="parentId" ng-model="postCategory.ParentID" ng-options="option.ID as option.Name for option in parentCategories">
+                            <option value="">Danh mục gốc</option>
+                        </select>
+                        <input type="hidden" name="parentId" ng-model="postCategory.ParentID" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Thứ tự</label>
+                    <div class="col-sm-10">
+                        <input type="number" required ng-model="postCategory.DisplayOrder" name="displayOrder" class="form-control" placeholder="Thứ tự">
+                        <span ng-show="frmAddPostCategory.displayOrder.$invalid" class="has-error">Phải nhập thứ tự</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Hình ảnh</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Hình ảnh" ng-model="postCategory.Image" name="image">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Meta Keyword</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Meta Keyword" ng-model="postCategory.MetaKeyword" name="metaKeyword">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Meta Description</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Meta Description" ng-model="postCategory.MetaDescription" name="metaDescription">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="status" ng-checked="postCategory.Status" ng-model="postCategory.Status"> Kích hoạt
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="homeFlag" ng-checked="postCategory.HomeFlag" ng-model="postCategory.HomeFlag"> Hiển thị trang chủ
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button ui-sref="post_categories" class="btn btn-default"><i class="fa fa-times" aria-hidden="true"></i> Huỷ</button>
+                <button type="submit" ng-disabled="frmAddPostCategory.$invalid" class="btn btn-info pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Lưu</button>
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+</section>

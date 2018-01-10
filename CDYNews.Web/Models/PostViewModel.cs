@@ -24,7 +24,7 @@ namespace CDYNews.Web.Models
         public string MetaKeyword { get; set; }
         public string MetaDescription { get; set; }
         public bool Status { get; set; }
+        public string Tags { get; set; }
         public virtual PostCategoryViewModel PostCategory { set; get; }
-        public virtual IEnumerable<PostTagViewModel> PostTags { set; get; }
     }
 }

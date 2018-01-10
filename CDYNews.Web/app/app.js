@@ -1,6 +1,6 @@
 ﻿/// <reference path="../assets/admin/libs/angular/angular.js" />
 (function () {
-    angular.module('cdynews', ['cdynews.common', 'cdynews.post_categories']).config(config);
+    angular.module('cdynews', ['cdynews.common', 'cdynews.post_categories','cdynews.posts']).config(config);
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
     function config($stateProvider, $urlRouterProvider) {
         $stateProvider

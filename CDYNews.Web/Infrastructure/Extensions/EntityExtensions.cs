@@ -46,6 +46,7 @@ namespace CDYNews.Web.Infrastructure.Extensions
             post.MetaKeyword = postViewModel.MetaKeyword;
             post.MetaDescription = postViewModel.MetaDescription;
             post.Status = postViewModel.Status;
+            post.Tags = postViewModel.Tags;
         }
     }
 }

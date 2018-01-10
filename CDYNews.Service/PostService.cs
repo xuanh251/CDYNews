@@ -1,4 +1,5 @@
-﻿using CDYNews.Data.Infrastructure;
+﻿using CDYNews.Common;
+using CDYNews.Data.Infrastructure;
 using CDYNews.Data.Repositories;
 using CDYNews.Model.Models;
 using System;
@@ -11,13 +12,14 @@ namespace CDYNews.Service
 {
     public interface IPostService
     {
-        void Add(Post post);
+        Post Add(Post post);
 
         void Update(Post post);
 
-        void Delete(int id);
+        Post Delete(int id);
 
         IEnumerable<Post> GetAll();
+        IEnumerable<Post> GetAll(string keyword);
 
         IEnumerable<Post> GetAllPaging(int page, int pageSize, out int totalRow);
 
@@ -34,28 +36,64 @@ namespace CDYNews.Service
     {
         private IPostRepository _postRepository;
         private IUnitOfWork _unitOfWork;
-
-        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork)
+        private ITagRepository _tagRepository;
+        private IPostTagRepository _postTagRepository;
+        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository,IPostTagRepository postTagRepository)
         {
-            this._postRepository = postRepository;
-            this._unitOfWork = unitOfWork;
+            _postRepository = postRepository;
+            _unitOfWork = unitOfWork;
+            _tagRepository = tagRepository;
+            _postTagRepository = postTagRepository;
         }
 
-        public void Add(Post post)
+        public Post Add(Post post)
         {
-            _postRepository.Add(post);
+            var _post = _postRepository.Add(post);
+            SaveChange();
+            if (!string.IsNullOrEmpty(_post.Tags))
+            {
+                string[] ListTags = _post.Tags.Split(',');
+                foreach (var item in ListTags)
+                {
+                    var TagID = StringHelper.ToUnsignString(item);
+                    if (_tagRepository.Count(s => s.ID == TagID) == 0)
+                    {
+                        Tag tag = new Tag();
+                        tag.ID = TagID;
+                        tag.Name = item;
+                        tag.Type = CommonConstants.PostTag;
+                        _tagRepository.Add(tag);
+                    }
+                    PostTag postTag = new PostTag();
+                    postTag.PostID = _post.ID;
+                    postTag.TagID = TagID;
+                    _postTagRepository.Add(postTag);
+                }
+            }
+            return _post;
         }
 
-        public void Delete(int id)
+        public Post Delete(int id)
         {
-            _postRepository.Delete(id);
+            return _postRepository.Delete(id);
         }
 
         public IEnumerable<Post> GetAll()
         {
             return _postRepository.GetAll(new string[] { "PostCategory" });
         }
+        public IEnumerable<Post> GetAll(string keyword)
+        {
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return _postRepository.GetMulti(s => s.Name.Contains(keyword) || s.Description.Contains(keyword) || s.Alias.Contains(keyword));
+            }
+            else
+            {
+                return _postRepository.GetAll();
+            }
 
+        }
         public IEnumerable<Post> GetAllByCategoryPaging(int categoryID, int page, int pageSize, out int totalRow)
         {
             return _postRepository.GetMultiPaging(s => s.Status && s.CategoryID == categoryID, out totalRow, page, pageSize, new string[] { "PostCatogory" });
@@ -84,6 +122,27 @@ namespace CDYNews.Service
         public void Update(Post post)
         {
             _postRepository.Update(post);
+            if (!string.IsNullOrEmpty(post.Tags))
+            {
+                string[] ListTags = post.Tags.Split(',');
+                foreach (var item in ListTags)
+                {
+                    var TagID = StringHelper.ToUnsignString(item);
+                    if (_tagRepository.Count(s => s.ID == TagID) == 0)
+                    {
+                        Tag tag = new Tag();
+                        tag.ID = TagID;
+                        tag.Name = item;
+                        tag.Type = CommonConstants.PostTag;
+                        _tagRepository.Add(tag);
+                    }
+                    _postTagRepository.DeleteMulti(s => s.PostID == post.ID);
+                    PostTag postTag = new PostTag();
+                    postTag.PostID = post.ID;
+                    postTag.TagID = TagID;
+                    _postTagRepository.Add(postTag);
+                }
+            }
         }
     }
 }
