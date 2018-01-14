@@ -41,8 +41,8 @@
             });
         }
         function loadParent() {
-            apiService.get('/api/post/getallparents', null, function (result) {
-                $scope.parents = result.data;
+            apiService.get('/api/postcategory/getallparents', null, function (result) {
+                $scope.postCategories = result.data;
             }, function () {
                 console.log("Can't load parent!")
             })

@@ -20,7 +20,7 @@ namespace CDYNews.Service
         IEnumerable<PostCategory> GetAll();
         IEnumerable<PostCategory> GetAll(string keyword);
 
-        IEnumerable<PostCategory> GetAllByParentId(int parentId);
+        IEnumerable<PostCategory> GetAllByParentId(int? parentId=null);
 
         PostCategory GetById(int id);
 
@@ -50,7 +50,8 @@ namespace CDYNews.Service
 
         public IEnumerable<PostCategory> GetAll()
         {
-            return _postCategoryRepository.GetAll();
+            var model= _postCategoryRepository.GetAll();
+            return model;
         }
 
         public IEnumerable<PostCategory> GetAll(string keyword)
@@ -65,7 +66,7 @@ namespace CDYNews.Service
             }
         }
 
-        public IEnumerable<PostCategory> GetAllByParentId(int parentId)
+        public IEnumerable<PostCategory> GetAllByParentId(int? parentId=null)
         {
             return _postCategoryRepository.GetMulti(x => x.Status && x.ParentID == parentId);
         }

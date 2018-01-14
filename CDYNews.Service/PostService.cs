@@ -30,6 +30,7 @@ namespace CDYNews.Service
         IEnumerable<Post> GetAllByTagPaging(string tag, int page, int pageSize, out int totalRow);
 
         void SaveChange();
+        IEnumerable<Post> GetBanner();
     }
 
     public class PostService : IPostService
@@ -38,12 +39,14 @@ namespace CDYNews.Service
         private IUnitOfWork _unitOfWork;
         private ITagRepository _tagRepository;
         private IPostTagRepository _postTagRepository;
-        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository,IPostTagRepository postTagRepository)
+        private IPostCategoryRepository _postCategoryRepository;
+        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository, IPostTagRepository postTagRepository, IPostCategoryRepository postCategoryRepository)
         {
             _postRepository = postRepository;
             _unitOfWork = unitOfWork;
             _tagRepository = tagRepository;
             _postTagRepository = postTagRepository;
+            _postCategoryRepository = postCategoryRepository;
         }
 
         public Post Add(Post post)
@@ -80,7 +83,7 @@ namespace CDYNews.Service
 
         public IEnumerable<Post> GetAll()
         {
-            return _postRepository.GetAll(new string[] { "PostCategory" });
+            return _postRepository.GetAll();
         }
         public IEnumerable<Post> GetAll(string keyword)
         {
@@ -107,6 +110,12 @@ namespace CDYNews.Service
         public IEnumerable<Post> GetAllPaging(int page, int pageSize, out int totalRow)
         {
             return _postRepository.GetMultiPaging(s => s.Status, out totalRow, page, pageSize);
+        }
+
+        public IEnumerable<Post> GetBanner()
+        {
+            var model = _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Take(3);
+            return model;
         }
 
         public Post GetById(int id)
