@@ -78,12 +78,12 @@ namespace CDYNews.Web.Api
 
         [Route("getall")]
         [HttpGet]
-        public HttpResponseMessage GetAll(HttpRequestMessage requestMessage, string keyword, int page, int pageSize = 20)
+        public HttpResponseMessage GetAll(HttpRequestMessage requestMessage, int postCategoryID, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(requestMessage, () =>
             {
                 var totalRow = 0;
-                var model = _postService.GetAll(keyword);
+                var model=postCategoryID!=0?_postService.GetAll(keyword).Where(s => s.CategoryID == postCategoryID): _postService.GetAll(keyword);
                 totalRow = model.Count();
                 var query = model.OrderByDescending(s => s.CreatedDate).Skip(page * pageSize).Take(pageSize);
                 var responseData = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(query);

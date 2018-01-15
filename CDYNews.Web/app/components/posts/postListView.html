@@ -26,15 +26,26 @@
         </div>
         <div class="box-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khoá" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i> Tìm kiếm</button>
-                        </span>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khoá" />
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="parentID" ng-model="CategoryID" ng-options="option.ID as option.Name for option in postCategories">
+                                <option value="">Danh mục gốc</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i> Tìm kiếm</button>
+                            </span>
+                        </div>
+                        
+                        
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <button ui-sref="add_posts" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm mới</button>
                     <button ng-click="deleteMulti()" id="btnDelete" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Xoá nhiều</button>
                 </div>

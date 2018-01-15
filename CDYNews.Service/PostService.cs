@@ -32,22 +32,25 @@ namespace CDYNews.Service
         void SaveChange();
         IEnumerable<Post> GetBanner();
         IEnumerable<Post> GetLastedPost();
+        List<Post> GetPostTaggedList();
+        IEnumerable<Post> MostViewCountPost();
     }
 
-    public class PostService : IPostService
+    class PostService : IPostService
     {
         private IPostRepository _postRepository;
         private IUnitOfWork _unitOfWork;
         private ITagRepository _tagRepository;
         private IPostTagRepository _postTagRepository;
-        private IPostCategoryRepository _postCategoryRepository;
-        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository, IPostTagRepository postTagRepository, IPostCategoryRepository postCategoryRepository)
+        private ICommonServices _commonServices;
+
+        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository, IPostTagRepository postTagRepository, ICommonServices commonServices)
         {
             _postRepository = postRepository;
             _unitOfWork = unitOfWork;
             _tagRepository = tagRepository;
             _postTagRepository = postTagRepository;
-            _postCategoryRepository = postCategoryRepository;
+            _commonServices = commonServices;
         }
 
         public Post Add(Post post)
@@ -126,7 +129,44 @@ namespace CDYNews.Service
 
         public IEnumerable<Post> GetLastedPost()
         {
-            return _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Take(2);
+            return _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Take(5);
+        }
+
+        public List<Post> GetPostTaggedList()
+        {
+            
+            List<Post> result = new List<Post>();
+            foreach (var post in GetLastedPost())
+            {
+                IEnumerable<Post> _scannedPost = _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Skip(2);
+                IEnumerable<PostTag> _gotTagList = _commonServices.getListPostTagOfSelectedPost(post.ID);
+                int i = 0;
+                foreach (var item in _scannedPost)
+                {
+                    if (i == 2) break;
+                    IEnumerable<PostTag> _currentTagList = _commonServices.getListPostTagOfSelectedPost(item.ID);
+                    foreach (var currentTag in _currentTagList)
+                    {
+                        if (i == 2) break;
+                        foreach (var gotTag in _gotTagList)
+                        {
+                            if (i == 2) break;
+                            if (currentTag.TagID == gotTag.TagID)
+                            {
+                                result.Add(item);
+                                i++;
+                            }
+                        }
+                    }
+                }
+
+            }
+            return result;
+        }
+
+        public IEnumerable<Post> MostViewCountPost()
+        {
+            return _postRepository.GetAll().Where(s=>s.Status).OrderByDescending(s => s.ViewCount).Take(3);
         }
 
         public void SaveChange()

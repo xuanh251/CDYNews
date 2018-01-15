@@ -14,7 +14,7 @@ namespace CDYNews.Web.Controllers
     {
         IPostCategoryService _postCategoryService;
         IPostService _postService;
-        public HomeController(IPostCategoryService postCategoryService,IPostService postService)
+        public HomeController(IPostCategoryService postCategoryService, IPostService postService)
         {
             _postCategoryService = postCategoryService;
             _postService = postService;
@@ -26,14 +26,17 @@ namespace CDYNews.Web.Controllers
             var BannerPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetBanner());
             var categoriesView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAll());
             var categoriesListView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAllByParentId());
-
+            var mostVisitPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.MostViewCountPost());
             //lasted posts
-            var lastedPostView= Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetLastedPost());
+            var lastedPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetLastedPost());
+
             var homeViewModel = new HomeViewModel();
             homeViewModel.BannerPost = BannerPostView;
             homeViewModel.PostCategories = categoriesView;
             homeViewModel.PostCategoriesList = categoriesListView;
             homeViewModel.LastedPosts = lastedPostView;
+            homeViewModel.MostVisitedPost = mostVisitPostView;
+
             return View(homeViewModel);
         }
         [ChildActionOnly]

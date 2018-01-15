@@ -8,6 +8,7 @@
         $scope.pagesCount = 0;
         $scope.getListPosts = getListPosts;
         $scope.keyword = '';
+        $scope.CategoryID = 0;
         $scope.search = search;
         $scope.deletePost = deletePost;
         $scope.isAll = false;
@@ -43,6 +44,13 @@
                 $scope.isAll = false;
             }
         }
+        function loadParent() {
+            apiService.get('/api/postcategory/getallparents', null, function (result) {
+                $scope.postCategories = result.data;
+            }, function () {
+                console.log("Can't load parent!")
+            })
+        }
         $scope.$watch('posts', function (newVal, oldVal) {
             var checked = $filter('filter')(newVal, { checked: true });
             if (checked.length) {
@@ -74,8 +82,10 @@
 
         function getListPosts(page) {
             page = page || 0; //nếu bằng null thì thay bằng 0
+            $scope.CategoryID = $scope.CategoryID || 0;
             var config = {
                 params: {
+                    postCategoryID: $scope.CategoryID,
                     keyword: $scope.keyword,
                     page: page,
                     pageSize: 10
@@ -99,6 +109,7 @@
             });
         }
         $scope.getListPosts();
+        loadParent();
     }
 
 })(angular.module('cdynews.posts'));
