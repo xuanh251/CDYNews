@@ -31,6 +31,7 @@ namespace CDYNews.Service
 
         void SaveChange();
         IEnumerable<Post> GetBanner();
+        IEnumerable<Post> GetLastedPost();
     }
 
     public class PostService : IPostService
@@ -121,6 +122,11 @@ namespace CDYNews.Service
         public Post GetById(int id)
         {
             return _postRepository.GetSingleById(id);
+        }
+
+        public IEnumerable<Post> GetLastedPost()
+        {
+            return _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Take(2);
         }
 
         public void SaveChange()

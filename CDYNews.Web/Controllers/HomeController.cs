@@ -22,11 +22,18 @@ namespace CDYNews.Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            //component
             var BannerPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetBanner());
             var categoriesView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAll());
+            var categoriesListView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAllByParentId());
+
+            //lasted posts
+            var lastedPostView= Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetLastedPost());
             var homeViewModel = new HomeViewModel();
             homeViewModel.BannerPost = BannerPostView;
             homeViewModel.PostCategories = categoriesView;
+            homeViewModel.PostCategoriesList = categoriesListView;
+            homeViewModel.LastedPosts = lastedPostView;
             return View(homeViewModel);
         }
         [ChildActionOnly]
@@ -38,13 +45,6 @@ namespace CDYNews.Web.Controllers
         public ActionResult Header()
         {
             var model = _postCategoryService.GetAll();
-            var postCategories = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(model);
-            return PartialView(postCategories);
-        }
-        [ChildActionOnly]
-        public ActionResult PostCategorieList()
-        {
-            var model = _postCategoryService.GetAllByParentId();
             var postCategories = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(model);
             return PartialView(postCategories);
         }

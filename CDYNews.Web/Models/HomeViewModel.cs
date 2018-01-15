@@ -9,6 +9,8 @@ namespace CDYNews.Web.Models
     {
         public IEnumerable<PostViewModel> BannerPost { get; set; }
         public IEnumerable<PostViewModel> Posts { set; get; }
+        public IEnumerable<PostViewModel> LastedPosts { set; get; }
         public IEnumerable<PostCategoryViewModel> PostCategories { set; get; }
+        public IEnumerable<PostCategoryViewModel> PostCategoriesList { get; set; }
     }
 }
