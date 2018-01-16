@@ -74,7 +74,7 @@
                                 <h6><i class="glyphicon glyphicon-time"></i>Đăng lúc @post.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</h6> <div class="icons"><a href="#"><i class="glyphicon glyphicon-user"></i>@post.CreatedBy</a><a href="#"><i class="glyphicon glyphicon-comment"></i>2</a><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i>152</a><a href="#"><i class="glyphicon glyphicon-thumbs-down"></i> 26</a></div>
                                 <div class="clearfix"></div>
                                 <p>@post.Description</p>
-                                <a class="read" href="@url">Read More</a>
+                                <a class="read" href="@url">Đọc tiếp</a>
                             </div>
                             <div class="clearfix"></div>
                             <div class="business-bottom-content">
@@ -89,9 +89,9 @@
                     <h3 class="tittle"><i class="glyphicon glyphicon-file"></i>Bài đọc nhiều nhất</h3>
                     <div class="world-news-grids">
                         @{ var MostVisitedList = (from a in Model.MostVisitedPost
-                                                       join b in Model.PostCategories
-                                                       on a.CategoryID equals b.ID
-                                                       select new { a.Alias, a.Name, a.Description, a.CreatedDate, a.CreatedBy, a.Image, CategoryAlias = b.Alias }); }
+                                                   join b in Model.PostCategories
+                                                   on a.CategoryID equals b.ID
+                                                   select new { a.Alias, a.Name, a.Description, a.CreatedDate, a.CreatedBy, a.Image, CategoryAlias = b.Alias }); }
                         @foreach (var item in MostVisitedList)
                         {
                             var url = "/" + item.CategoryAlias + "/" + item.Alias;
@@ -99,7 +99,7 @@
                                 <img src="@item.Image" alt="" />
                                 <a href="@url" class="wd">@item.Name</a>
                                 <p>@item.Description</p>
-                                <a class="read" href="@url">Read More</a>
+                                <a class="read" href="@url">Đọc tiếp</a>
                             </div>
                         }
                         <div class="clearfix"></div>
@@ -109,7 +109,7 @@
             </div>
             <div class="col-md-4 mag-inner-right">
                 <div class="connect">
-                    <h4 class="side">Thể loại</h4>
+                    <h4 class="side">Tin theo chủ đề</h4>
                     <ul class="stay">
                         @foreach (var postCategory in Model.PostCategoriesList)
                         {
@@ -122,50 +122,24 @@
                 <div class="modern">
                     <h4 class="side">Bản tin sức khoẻ</h4>
                     <div class="edit-pics">
-                        <div class="editor-pics">
-                            <div class="col-md-3 item-pic">
-                                <img src="images/f4.jpg" class="img-responsive" alt="" />
-
+                        @{ var HealthPostList = (from a in Model.HealthPost
+                                                  join b in Model.PostCategories
+                                                  on a.CategoryID equals b.ID
+                                                  select new { a.Alias, a.Name, a.Description, a.CreatedDate, a.CreatedBy, a.Image, CategoryAlias = b.Alias }); }
+                        @foreach (var item in HealthPostList)
+                        {
+                            var url = "/" + item.CategoryAlias + "/" + item.Alias;
+                            <div class="editor-pics">
+                                <div class="col-md-3 item-pic">
+                                    <img src="@item.Image" class="img-responsive" alt="" />
+                                </div>
+                                <div class="col-md-9 item-details">
+                                    <h5 class="inner two"><a href="@url">@item.Name</a></h5>
+                                    <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")<a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="col-md-9 item-details">
-                                <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
-                                <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="editor-pics">
-                            <div class="col-md-3 item-pic">
-                                <img src="images/f1.jpg" class="img-responsive" alt="" />
-
-                            </div>
-                            <div class="col-md-9 item-details">
-                                <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
-                                <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="editor-pics">
-                            <div class="col-md-3 item-pic">
-                                <img src="images/f1.jpg" class="img-responsive" alt="" />
-
-                            </div>
-                            <div class="col-md-9 item-details">
-                                <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
-                                <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="editor-pics">
-                            <div class="col-md-3 item-pic">
-                                <img src="images/f4.jpg" class="img-responsive" alt="" />
-
-                            </div>
-                            <div class="col-md-9 item-details">
-                                <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
-                                <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        }
                     </div>
 
                 </div>
@@ -173,50 +147,26 @@
                 <!--//end-sign-up-->
                 <h4 class="side">Bản tin giáo dục</h4>
                 <div class="edit-pics">
-                    <div class="editor-pics">
-                        <div class="col-md-3 item-pic">
-                            <img src="images/f4.jpg" class="img-responsive" alt="" />
+                    @{ var EducationPostList = (from a in Model.EducationPost
+                                                 join b in Model.PostCategories
+                                                 on a.CategoryID equals b.ID
+                                                 select new { a.Alias, a.Name, a.Description, a.CreatedDate, a.CreatedBy, a.Image, CategoryAlias = b.Alias }); }
+                    @foreach (var item in EducationPostList)
+                    {
+                        var url = "/" + item.CategoryAlias + "/" + item.Alias;
+                        <div class="editor-pics">
+                            <div class="col-md-3 item-pic">
+                                <img src="@item.Image" class="img-responsive" alt="" />
+                            </div>
+                            <div class="col-md-9 item-details">
+                                <h5 class="inner two"><a href="@url">@item.Name</a></h5>
+                                <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")<a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    }
 
-                        </div>
-                        <div class="col-md-9 item-details">
-                            <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
-                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="editor-pics">
-                        <div class="col-md-3 item-pic">
-                            <img src="images/f1.jpg" class="img-responsive" alt="" />
 
-                        </div>
-                        <div class="col-md-9 item-details">
-                            <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
-                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="editor-pics">
-                        <div class="col-md-3 item-pic">
-                            <img src="images/f1.jpg" class="img-responsive" alt="" />
-
-                        </div>
-                        <div class="col-md-9 item-details">
-                            <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
-                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="editor-pics">
-                        <div class="col-md-3 item-pic">
-                            <img src="images/f4.jpg" class="img-responsive" alt="" />
-
-                        </div>
-                        <div class="col-md-9 item-details">
-                            <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
-                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
                 </div>
                 <!--//edit-pics-->
                 <!--/top-news-->
@@ -237,48 +187,32 @@
         <!--//end-mag-inner-->
         <!--/mag-bottom-->
         <div class="mag-bottom">
-            <h3 class="tittle bottom"><i class="glyphicon glyphicon-globe"></i>Vòng quanh thế giới</h3>
+            <h3 class="tittle bottom"><i class="glyphicon glyphicon-compressed"></i>Khoa học - công nghệ</h3>
             <div class="grid">
+                @{ var SciencePostList = (from a in Model.SciencePost
+                                           join b in Model.PostCategories
+                                           on a.CategoryID equals b.ID
+                                           select new { a.Alias, a.Name, a.Description, a.CreatedDate, a.CreatedBy, a.Image, CategoryAlias = b.Alias }); }
+                @foreach (var item in SciencePostList)
+                {
+                    var url = "/" + item.CategoryAlias + "/" + item.Alias;
                 <div class="col-md-4 m-b">
-                    <a href="single.html"> <figure class="effect-layla"></a>
-                    <img src="images/pic.jpg" alt="img25" />
+                    <a href="@url"></a> <figure class="effect-layla">
+                    <img src="@item.Image" alt="img25" />
                     <figcaption>
-                        <h4>News <span>Mag</span></h4>
+                        <h4>Khoa học <span>Công nghệ</span></h4>
                         <a href="#">View more</a>
                     </figcaption>
                     </figure>
                     <div class="m-b-text">
-                        <a href="single.html" class="wd">Lorem ipsum dolor sit amet,interdum ullamcorper consectetur </a>
-                        <p>Nulla quis lorem neque, mattis venenatis lectus. In interdum ullamcorper dolor eu mattis.</p>
-                        <a class="read" href="single.html">Read More</a>
+                        <a href="@url" class="wd">@item.Name</a>
+                        <p>@item.Description</p>
+                        <a class="read" href="@url">Đọc tiếp</a>
                     </div>
                 </div>
-                <div class="col-md-4 m-b">
-                    <figure class="effect-layla">
-                        <a href="single.html">	<img src="images/pic2.jpg" alt="img25" /></a>
-                        <figcaption>
-                            <h4>News <span>Mag</span></h4>
-                        </figcaption>
-                    </figure>
-                    <div class="m-b-text">
-                        <a href="single.html" class="wd">Lorem ipsum dolor sit amet,interdum ullamcorper consectetur </a>
-                        <p>Nulla quis lorem neque, mattis venenatis lectus. In interdum ullamcorper dolor eu mattis.</p>
-                        <a class="read" href="single.html">Read More</a>
-                    </div>
-                </div>
-                <div class="col-md-4 m-b">
-                    <figure class="effect-layla">
-                        <a href="single.html"><img src="images/pic3.jpg" alt="img25" /></a>
-                        <figcaption>
-                            <h4>News <span>Mag</span></h4>
-                        </figcaption>
-                    </figure>
-                    <div class="m-b-text">
-                        <a href="single.html" class="wd">Lorem ipsum dolor sit amet,interdum ullamcorper consectetur </a>
-                        <p>Nulla quis lorem neque, mattis venenatis lectus. In interdum ullamcorper dolor eu mattis.</p>
-                        <a class="read" href="single.html">Read More</a>
-                    </div>
-                </div>
+                }
+
+
                 <div class="clearfix"></div>
             </div>
         </div>

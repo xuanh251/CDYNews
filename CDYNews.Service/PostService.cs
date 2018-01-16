@@ -32,8 +32,11 @@ namespace CDYNews.Service
         void SaveChange();
         IEnumerable<Post> GetBanner();
         IEnumerable<Post> GetLastedPost();
-        List<Post> GetPostTaggedList();
+        //List<Post> GetPostTaggedList();
         IEnumerable<Post> MostViewCountPost();
+        IEnumerable<Post> GetHealthPost();
+        IEnumerable<Post> GetEducationPost();
+        IEnumerable<Post> GetSciencePost();
     }
 
     class PostService : IPostService
@@ -127,42 +130,57 @@ namespace CDYNews.Service
             return _postRepository.GetSingleById(id);
         }
 
+        public IEnumerable<Post> GetEducationPost()
+        {
+            return _postRepository.GetAll().Where(s => s.CategoryID == 6).OrderByDescending(s => s.CreatedDate).Take(5);
+        }
+
+        public IEnumerable<Post> GetHealthPost()
+        {
+            return _postRepository.GetAll().Where(s=>s.CategoryID==1003).OrderByDescending(s => s.CreatedDate).Take(5);
+        }
+
         public IEnumerable<Post> GetLastedPost()
         {
             return _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Take(5);
         }
 
-        public List<Post> GetPostTaggedList()
+        public IEnumerable<Post> GetSciencePost()
         {
-            
-            List<Post> result = new List<Post>();
-            foreach (var post in GetLastedPost())
-            {
-                IEnumerable<Post> _scannedPost = _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Skip(2);
-                IEnumerable<PostTag> _gotTagList = _commonServices.getListPostTagOfSelectedPost(post.ID);
-                int i = 0;
-                foreach (var item in _scannedPost)
-                {
-                    if (i == 2) break;
-                    IEnumerable<PostTag> _currentTagList = _commonServices.getListPostTagOfSelectedPost(item.ID);
-                    foreach (var currentTag in _currentTagList)
-                    {
-                        if (i == 2) break;
-                        foreach (var gotTag in _gotTagList)
-                        {
-                            if (i == 2) break;
-                            if (currentTag.TagID == gotTag.TagID)
-                            {
-                                result.Add(item);
-                                i++;
-                            }
-                        }
-                    }
-                }
-
-            }
-            return result;
+            return _postRepository.GetAll().Where(s => s.CategoryID == 2).OrderByDescending(s => s.CreatedDate).Take(5);
         }
+
+        //public List<Post> GetPostTaggedList()
+        //{
+
+        //    List<Post> result = new List<Post>();
+        //    foreach (var post in GetLastedPost())
+        //    {
+        //        IEnumerable<Post> _scannedPost = _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Skip(2);
+        //        IEnumerable<PostTag> _gotTagList = _commonServices.getListPostTagOfSelectedPost(post.ID);
+        //        int i = 0;
+        //        foreach (var item in _scannedPost)
+        //        {
+        //            if (i == 2) break;
+        //            IEnumerable<PostTag> _currentTagList = _commonServices.getListPostTagOfSelectedPost(item.ID);
+        //            foreach (var currentTag in _currentTagList)
+        //            {
+        //                if (i == 2) break;
+        //                foreach (var gotTag in _gotTagList)
+        //                {
+        //                    if (i == 2) break;
+        //                    if (currentTag.TagID == gotTag.TagID)
+        //                    {
+        //                        result.Add(item);
+        //                        i++;
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //    }
+        //    return result;
+        //}
 
         public IEnumerable<Post> MostViewCountPost()
         {

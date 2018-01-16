@@ -24,18 +24,24 @@ namespace CDYNews.Web.Controllers
         {
             //component
             var BannerPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetBanner());
-            var categoriesView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAll());
+            var categoriesMenuView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAll());
             var categoriesListView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAllByParentId());
-            var mostVisitPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.MostViewCountPost());
+            var mostVisitedPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.MostViewCountPost());
+            var healthPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetHealthPost());
+            var educationPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetEducationPost());
+            var sciencePostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetSciencePost());
             //lasted posts
             var lastedPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetLastedPost());
 
             var homeViewModel = new HomeViewModel();
             homeViewModel.BannerPost = BannerPostView;
-            homeViewModel.PostCategories = categoriesView;
+            homeViewModel.PostCategories = categoriesMenuView;
             homeViewModel.PostCategoriesList = categoriesListView;
             homeViewModel.LastedPosts = lastedPostView;
-            homeViewModel.MostVisitedPost = mostVisitPostView;
+            homeViewModel.MostVisitedPost = mostVisitedPostView;
+            homeViewModel.HealthPost = healthPostView;
+            homeViewModel.EducationPost = educationPostView;
+            homeViewModel.SciencePost = sciencePostView;
 
             return View(homeViewModel);
         }
@@ -49,7 +55,7 @@ namespace CDYNews.Web.Controllers
         {
             var model = _postCategoryService.GetAll();
             var postCategories = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(model);
-            return PartialView(postCategories);
+            return PartialView(postCategories.Where(s=>s.HomeFlag&&s.Status));
         }
     }
 }

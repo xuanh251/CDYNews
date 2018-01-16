@@ -14,7 +14,7 @@ namespace CDYNews.Web.Models
         public int? ParentID { set; get; }
         public int? DisplayOrder { set; get; }
         public string Image { set; get; }
-        public bool? HomeFlag { set; get; }
+        public bool HomeFlag { set; get; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
