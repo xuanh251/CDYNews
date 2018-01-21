@@ -77,6 +77,10 @@
     <Compile Include="Migrations\201801190037154_addCommentTable.Designer.cs">
       <DependentUpon>201801190037154_addCommentTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801212110078_updatePostTag.cs" />
+    <Compile Include="Migrations\201801212110078_updatePostTag.Designer.cs">
+      <DependentUpon>201801212110078_updatePostTag.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ApplicationGroupRepository.cs" />
@@ -125,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801190037154_addCommentTable.resx">
       <DependentUpon>201801190037154_addCommentTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801212110078_updatePostTag.resx">
+      <DependentUpon>201801212110078_updatePostTag.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

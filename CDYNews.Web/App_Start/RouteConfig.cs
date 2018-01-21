@@ -14,6 +14,12 @@ namespace CDYNews.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+            name: "TagList",
+            url: "tag/{tagId}.html",
+            defaults: new { controller = "Post", action = "ListPostByTag", tagId = UrlParameter.Optional },
+              namespaces: new string[] { "CDYNews.Web.Controllers" }
+        );
+            routes.MapRoute(
              name: "Search",
              url: "tim-kiem.html",
              defaults: new { controller = "Post", action = "Search", id = UrlParameter.Optional },

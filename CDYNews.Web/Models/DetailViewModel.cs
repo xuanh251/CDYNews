@@ -11,7 +11,7 @@ namespace CDYNews.Web.Models
         public PostViewModel PostDetail { get; set; }
         public IEnumerable<PostViewModel> PopularPost { get; set; }
         public PostCategoryViewModel CategoryName { get; set; }
-        public string[] ListTags { get; set; }
+        public IEnumerable<TagViewModel> ListTags { get; set; }
         public List<PostViewModel> RelativePost { get; set; }
         public IEnumerable<PostViewModel> SameCategoryPost { get; set; }
     }

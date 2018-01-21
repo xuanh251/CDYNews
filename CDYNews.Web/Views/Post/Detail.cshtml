@@ -36,9 +36,9 @@
                             {
                                 foreach (var item in Model.ListTags)
                                 {
-                                    var url = "/tim-kiem.html?keyword=" + CDYNews.Common.StringHelper.ToUnsignString(item);
+                                    var url = "/tag/"+ item.ID+".html";
                                     <li>
-                                        <a href="@url">@item</a>
+                                        <a href="@url">@item.Name</a>
                                     </li>
                                 }
                             };

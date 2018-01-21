@@ -58,8 +58,6 @@ namespace CDYNews.Web.App_Start
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
 
-            builder.RegisterType<CommonSerivces>().As<ICommonServices>().InstancePerRequest();
-
             Autofac.IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 

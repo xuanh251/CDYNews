@@ -27,7 +27,7 @@ namespace CDYNews.Web.Controllers
         public ActionResult Detail(int postId)
         {
             Post post = _postService.GetById(postId);
-            if (post.ViewCount != null) post.ViewCount++;
+            if (post.ViewCount.HasValue) post.ViewCount++;
             else post.ViewCount = 1;
             _postService.Update(post);
             _postService.SaveChange();
@@ -36,10 +36,9 @@ namespace CDYNews.Web.Controllers
             var postDetail = _postService.GetById(postId);
             var postDetailContentView = Mapper.Map<Post, PostViewModel>(postDetail);
             var listRelativePosts = _postService.GetRelativePost(postId);
-
             detailViewModel.PostDetail = postDetailContentView;
             detailViewModel.CategoryName = Mapper.Map<PostCategory, PostCategoryViewModel>(_postCategoryService.GetById(postDetail.CategoryID));
-            detailViewModel.ListTags = postDetail.Tags != null ? postDetail.Tags.Split(',') : null;
+            detailViewModel.ListTags =Mapper.Map<IEnumerable<Tag>,IEnumerable<TagViewModel>>(_postService.GetListTagByPostId(postId));
             detailViewModel.RelativePost = listRelativePosts.Count != 0 ? Mapper.Map<List<Post>, List<PostViewModel>>(listRelativePosts) : null;
             detailViewModel.PopularPost = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.MostViewCountPost().Take(5));
             detailViewModel.SameCategoryPost = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetSameCategory(postId).OrderByDescending(s => s.CreatedDate).Take(5));
@@ -82,6 +81,26 @@ namespace CDYNews.Web.Controllers
 
             ViewBag.Keyword = keyword;
             ViewBag.SearchTitle = keyword;
+            var paginationSet = new PaginationSet<PostViewModel>()
+            {
+                Items = PostViewModel,
+                MaxPage = int.Parse(ConfigHelper.GetByKey("MaxPage")),
+                Page = page,
+                TotalCount = totalRow,
+                TotalPage = totalPage
+            };
+
+            return View(paginationSet);
+        }
+        public ActionResult ListPostByTag(string tagId, int page = 1)
+        {
+            int pageSize = int.Parse(ConfigHelper.GetByKey("PageSize"));
+            int totalRow = 0;
+            var postModel = _postService.GetListPostsByTag(tagId, page, pageSize, out totalRow);
+            var PostViewModel = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(postModel);
+            int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
+
+            ViewBag.Tag = Mapper.Map<Tag,TagViewModel>(_postService.GetTag(tagId));
             var paginationSet = new PaginationSet<PostViewModel>()
             {
                 Items = PostViewModel,

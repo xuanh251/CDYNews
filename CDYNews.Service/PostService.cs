@@ -41,6 +41,10 @@ namespace CDYNews.Service
         IEnumerable<string> GetListPostByKeyWord(string keyword);
         IEnumerable<Post> Search(string keyword, int page, int pageSize, out int totalRow);
         IEnumerable<Post> GetSameCategory(int postId);
+        IEnumerable<Tag> GetListTagByPostId(int id);
+        IEnumerable<Post> GetListPostsByTag(string tagId, int page, int pageSize, out int totalRow);
+        Tag GetTag(string tagId);
+
     }
 
     class PostService : IPostService
@@ -50,17 +54,14 @@ namespace CDYNews.Service
         private ITagRepository _tagRepository;
         private IPostTagRepository _postTagRepository;
         private IPostCategoryRepository _postCategoryRepository;
-        private ICommonServices _commonServices;
 
-
-        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository, IPostTagRepository postTagRepository, IPostCategoryRepository postCategoryRepository, ICommonServices commonServices)
+        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository, IPostTagRepository postTagRepository, IPostCategoryRepository postCategoryRepository)
         {
             _postRepository = postRepository;
             _postCategoryRepository = postCategoryRepository;
             _unitOfWork = unitOfWork;
             _tagRepository = tagRepository;
             _postTagRepository = postTagRepository;
-            _commonServices = commonServices;
         }
 
         public Post Add(Post post)
@@ -166,6 +167,12 @@ namespace CDYNews.Service
             return _postRepository.GetMulti(s => s.Status && s.Name.Contains(keyword)).Select(s => s.Name);
         }
 
+
+        public IEnumerable<Tag> GetListTagByPostId(int id)
+        {
+            return _postTagRepository.GetMulti(s => s.PostID == id, new string[] { "Tag" }).Select(y => y.Tag);
+        }
+
         public List<Post> GetRelativePost(int postId)
         {
             var postDetail = GetById(postId);
@@ -261,5 +268,15 @@ namespace CDYNews.Service
             }
         }
 
+        public IEnumerable<Post> GetListPostsByTag(string tagId, int page, int pageSize, out int totalRow)
+        {
+            var model = _postRepository.GetAllByTag(tagId,page,pageSize,out totalRow);
+            return model;
+        }
+
+        public Tag GetTag(string tagId)
+        {
+            return _tagRepository.GetSingleByCondition(s => s.ID == tagId);
+        }
     }
 }
