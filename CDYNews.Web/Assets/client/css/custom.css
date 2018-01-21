@@ -1,0 +1,28 @@
+﻿.tags {
+    background: #eee;
+    padding: 8px 15px 3px;
+    clear: both;
+}
+    .tags li {
+        font-size: 12px;
+        display: inline-block;
+        text-transform: uppercase;
+        margin: 0 5px 5px 0;
+    }
+    .tags a {
+        display: block;
+        background: #fff;
+        padding: 3px 8px;
+        text-transform: capitalize;
+    }
+.ui-autocomplete {
+    z-index: 1000;
+    background: #353D45;
+    color:white;
+}
+.ui-menu-item {
+    color: white;
+}
+.img-responsive{
+    width:100%;
+}

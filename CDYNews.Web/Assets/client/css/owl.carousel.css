@@ -82,6 +82,7 @@
 position: absolute;
        top: 15.3em;
     right: 0em;
+    display:none;
 }
 
 /* Styling Next and Prev buttons */

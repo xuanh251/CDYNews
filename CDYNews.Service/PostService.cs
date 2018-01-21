@@ -32,11 +32,15 @@ namespace CDYNews.Service
         void SaveChange();
         IEnumerable<Post> GetBanner();
         IEnumerable<Post> GetLastedPost();
-        //List<Post> GetPostTaggedList();
         IEnumerable<Post> MostViewCountPost();
         IEnumerable<Post> GetHealthPost();
         IEnumerable<Post> GetEducationPost();
         IEnumerable<Post> GetSciencePost();
+        List<Post> GetRelativePost(int postId);
+        IEnumerable<Post> GetListPostByCategoryIdPaging(int categoryId, int page, int pageSize, out int totalRow);
+        IEnumerable<string> GetListPostByKeyWord(string keyword);
+        IEnumerable<Post> Search(string keyword, int page, int pageSize, out int totalRow);
+        IEnumerable<Post> GetSameCategory(int postId);
     }
 
     class PostService : IPostService
@@ -45,11 +49,14 @@ namespace CDYNews.Service
         private IUnitOfWork _unitOfWork;
         private ITagRepository _tagRepository;
         private IPostTagRepository _postTagRepository;
+        private IPostCategoryRepository _postCategoryRepository;
         private ICommonServices _commonServices;
 
-        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository, IPostTagRepository postTagRepository, ICommonServices commonServices)
+
+        public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork, ITagRepository tagRepository, IPostTagRepository postTagRepository, IPostCategoryRepository postCategoryRepository, ICommonServices commonServices)
         {
             _postRepository = postRepository;
+            _postCategoryRepository = postCategoryRepository;
             _unitOfWork = unitOfWork;
             _tagRepository = tagRepository;
             _postTagRepository = postTagRepository;
@@ -121,7 +128,7 @@ namespace CDYNews.Service
 
         public IEnumerable<Post> GetBanner()
         {
-            var model = _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Take(3);
+            var model = _postRepository.GetMulti(s => s.Status).OrderByDescending(s => s.CreatedDate).Take(3);
             return model;
         }
 
@@ -132,17 +139,77 @@ namespace CDYNews.Service
 
         public IEnumerable<Post> GetEducationPost()
         {
-            return _postRepository.GetAll().Where(s => s.CategoryID == 6).OrderByDescending(s => s.CreatedDate).Take(5);
+            return _postRepository.GetMulti(s => s.CategoryID == 6).OrderByDescending(s => s.CreatedDate).Take(4);
         }
 
         public IEnumerable<Post> GetHealthPost()
         {
-            return _postRepository.GetAll().Where(s=>s.CategoryID==1003).OrderByDescending(s => s.CreatedDate).Take(5);
+            return _postRepository.GetMulti(s => s.CategoryID == 1003).OrderByDescending(s => s.CreatedDate).Take(4);
         }
 
         public IEnumerable<Post> GetLastedPost()
         {
-            return _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Take(5);
+            return _postRepository.GetMulti(s => s.Status).OrderByDescending(s => s.CreatedDate).Take(5);
+        }
+
+        public IEnumerable<Post> GetListPostByCategoryIdPaging(int categoryId, int page, int pageSize, out int totalRow)
+        {
+            var query = _postRepository.GetMulti(x => x.Status && x.CategoryID == categoryId);
+
+            totalRow = query.Count();
+
+            return query.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        public IEnumerable<string> GetListPostByKeyWord(string keyword)
+        {
+            return _postRepository.GetMulti(s => s.Status && s.Name.Contains(keyword)).Select(s => s.Name);
+        }
+
+        public List<Post> GetRelativePost(int postId)
+        {
+            var postDetail = GetById(postId);
+            //lấy ra list tag của bài viết hiện tại
+            string[] ListTags = postDetail.Tags != null ? postDetail.Tags.Split(',') : null;
+            var allPosts = GetAll().Where(s => s.Status).OrderByDescending(s => s.CreatedDate);
+            var listRelativePosts = new List<Post>();
+            //duyệt qua từng bài viết, nếu là bài viết hiện tại thì bỏ qua
+            if (ListTags != null)
+            {
+                foreach (var item in allPosts)
+                {
+                    var isAddPost = false;
+                    if (item.ID == postDetail.ID) continue;
+                    //nếu bài viết đang duyệt có tag thì tạo mảng tag cho bài viết đó, ko thì để null
+                    string[] currentListTags = item.Tags != null ? item.Tags.Split(',') : null;
+                    //nếu list tag vừa tạo có phần tử thì duyệt qua nó
+                    if (currentListTags != null)
+                    {
+                        foreach (var tag in currentListTags)
+                        {
+                            var result = Array.FindAll(ListTags, s => s.Equals(tag));
+                            if (result.Length != 0)
+                            {
+                                isAddPost = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (isAddPost)
+                    {
+                        listRelativePosts.Add(item);
+                    }
+                }
+            }
+            
+            return listRelativePosts;
+        }
+
+        public IEnumerable<Post> GetSameCategory(int postId)
+        {
+            var category = _postRepository.GetSingleById(postId);
+            var data = _postRepository.GetMulti(s => s.Status && s.ID != postId && s.CategoryID == category.CategoryID);
+            return data;
         }
 
         public IEnumerable<Post> GetSciencePost()
@@ -150,46 +217,22 @@ namespace CDYNews.Service
             return _postRepository.GetAll().Where(s => s.CategoryID == 2).OrderByDescending(s => s.CreatedDate).Take(5);
         }
 
-        //public List<Post> GetPostTaggedList()
-        //{
-
-        //    List<Post> result = new List<Post>();
-        //    foreach (var post in GetLastedPost())
-        //    {
-        //        IEnumerable<Post> _scannedPost = _postRepository.GetAll().OrderByDescending(s => s.CreatedDate).Skip(2);
-        //        IEnumerable<PostTag> _gotTagList = _commonServices.getListPostTagOfSelectedPost(post.ID);
-        //        int i = 0;
-        //        foreach (var item in _scannedPost)
-        //        {
-        //            if (i == 2) break;
-        //            IEnumerable<PostTag> _currentTagList = _commonServices.getListPostTagOfSelectedPost(item.ID);
-        //            foreach (var currentTag in _currentTagList)
-        //            {
-        //                if (i == 2) break;
-        //                foreach (var gotTag in _gotTagList)
-        //                {
-        //                    if (i == 2) break;
-        //                    if (currentTag.TagID == gotTag.TagID)
-        //                    {
-        //                        result.Add(item);
-        //                        i++;
-        //                    }
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    return result;
-        //}
-
         public IEnumerable<Post> MostViewCountPost()
         {
-            return _postRepository.GetAll().Where(s=>s.Status).OrderByDescending(s => s.ViewCount).Take(3);
+            return _postRepository.GetAll().Where(s => s.Status).OrderByDescending(s => s.ViewCount);
         }
 
         public void SaveChange()
         {
             _unitOfWork.Commit();
+        }
+
+        public IEnumerable<Post> Search(string keyword, int page, int pageSize, out int totalRow)
+        {
+            var seoKeyWord = StringHelper.ToUnsignString(keyword);
+            var query = _postRepository.GetMulti(x => x.Status && (x.Name.Contains(keyword) || x.Alias.Contains(seoKeyWord)));
+            totalRow = query.Count();
+            return query.Skip((page - 1) * pageSize).Take(pageSize);
         }
 
         public void Update(Post post)
@@ -217,5 +260,6 @@ namespace CDYNews.Service
                 }
             }
         }
+
     }
 }

@@ -1,0 +1,186 @@
+﻿@model CDYNews.Web.Models.DetailViewModel
+@{
+    ViewBag.Title = Model.PostDetail.Name;
+    Layout = "~/Views/Shared/Layouts.cshtml";
+    var postCategoryUrl = "/" + Model.CategoryName.Alias + ".pc-" + Model.CategoryName.ID + ".html";
+}
+<div class="banner two">
+    <div class="container">
+        <h2 class="inner-tittle">@Model.PostDetail.Name</h2>
+    </div>
+</div>
+<!--//end-banner-->
+<!--/start-main-->
+<div class="main-content">
+    <div class="container">
+        <div class="mag-inner">
+            <div class="col-md-8 mag-innert-left">
+                <div class="banner-bottom-left-grids">
+                    <div class="single-left-grid">
+                        <div class="single-bottom">
+                            <ul>
+                                <li><a href="@postCategoryUrl">@Model.CategoryName.Name</a></li>
+                                <li>@Model.PostDetail.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</li>
+                                <li><a href="#">Đăng bởi Admin</a></li>
+                                <li><a href="#">5 Comments</a></li>
+                                <li><a href="#">@Model.PostDetail.ViewCount Lượt xem</a></li>
+                            </ul>
+                        </div>
+                        @*<img src="@Model.Image" alt="">*@
+                        <h4>@Model.PostDetail.Description</h4>
+                        @Html.Raw(Model.PostDetail.Content)
+                    </div>
+                    <ul class="tags">
+                        <li style="font-weight:bold">Tags: </li>
+                        @{if (Model.ListTags != null)
+                            {
+                                foreach (var item in Model.ListTags)
+                                {
+                                    var url = "/tim-kiem.html?keyword=" + CDYNews.Common.StringHelper.ToUnsignString(item);
+                                    <li>
+                                        <a href="@url">@item</a>
+                                    </li>
+                                }
+                            };
+                        }
+                    </ul>
+                </div>
+                <div class="post">
+                    @{if (Model.RelativePost != null)
+                        {
+                            <a href="#"><h3>Bài viết liên quan</h3></a>
+                            foreach (var item in Model.RelativePost.Take(3))
+                            {
+                                var url = "/" + item.Alias + ".p-" + item.ID + ".html";
+                                <div class="post-grids">
+                                    <div class="col-md-3 post-left">
+                                        <a href="@url"><img style="width:100%" src="@item.Image" alt=""></a>
+                                    </div>
+                                    <div class="col-md-9 post-right">
+                                        <h4><a href="@url">@item.Name</a></h4>
+                                        <p class="comments">Đăng lúc @item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss") <a href="#"> || 8 Comments</a></p>
+                                        <p class="text">@item.Description</p>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                            }
+                        };
+                    }
+                    <!--leave-->
+                    <div class="leave">
+                        <h4>Để lại bình luận</h4>
+                        <form id="commentform">
+                            <p class="comment-form-author-name">
+                                <label for="author">Tên</label>
+                                <input id="author" type="text" value="" size="30" aria-required="true">
+                            </p>
+                            <p class="comment-form-email">
+                                <label class="email">Email</label>
+                                <input id="email" type="text" value="" size="30" aria-required="true">
+                            </p>
+                            <p class="comment-form-comment">
+                                <label class="comment">Bình luận</label>
+                                <textarea></textarea>
+                            </p>
+                            <div class="clearfix"></div>
+                            <p class="form-submit">
+                                <input type="submit" id="submit" value="Send">
+                            </p>
+                            <div class="clearfix"></div>
+                        </form>
+
+                    </div>
+                </div>
+                <!--//leave-->
+            </div>
+            <div class="col-md-4 mag-inner-right">
+                <div class="connect">
+                    <h4 class="side">Chia sẻ</h4>
+                    <ul class="stay">
+                        <li class="c5-element-facebook"><a href="#"><span class="icon"></span><h5>700</h5><span class="text">Followers</span></a></li>
+                        <li class="c5-element-twitter"><a href="#"><span class="icon1"></span><h5>201</h5><span class="text">Followers</span></a></li>
+                        <li class="c5-element-gg"><a href="#"><span class="icon2"></span><h5>111</h5><span class="text">Followers</span></a></li>
+                        <li class="c5-element-dribble"><a href="#"><span class="icon3"></span><h5>99</h5><span class="text">Followers</span></a></li>
+
+                    </ul>
+                </div>
+                <div class="modern">
+                    <h4 class="side">Hình ảnh nhà trường</h4>
+                    <div id="example1">
+                        <div id="owl-demo" class="owl-carousel text-center">
+                            <div class="item">
+                                <img class="img-responsive lot" src="~/Assets/client/images/AboutSlide/1.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="~/Assets/client/images/AboutSlide/2.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="~/Assets/client/images/AboutSlide/3.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="~/Assets/client/images/AboutSlide/4.jpg" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="side">Bài viết phổ biến</h4>
+                <div class="edit-pics">
+                    @foreach (var item in Model.PopularPost)
+                    {
+                        var url = "/" + item.Alias + ".p-" + item.ID + ".html";
+                        <div class="editor-pics">
+                            <div class="col-md-3 item-pic">
+                                <img src="@item.Image" class="img-responsive" alt="" />
+                            </div>
+                            <div class="col-md-9 item-details">
+                                <h5 class="inner two"><a href="@url">@item.Name</a></h5>
+                                <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss") <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    }
+
+                </div>
+                <h4 class="side">Cùng chuyên mục</h4>
+                <div class="edit-pics">
+                    @foreach (var item in Model.SameCategoryPost)
+                    {
+                        var url = "/" + item.Alias + ".p-" + item.ID + ".html";
+                        <div class="editor-pics">
+                            <div class="col-md-3 item-pic">
+                                <img src="@item.Image" class="img-responsive" alt="" />
+                            </div>
+                            <div class="col-md-9 item-details">
+                                <h5 class="inner two"><a href="@url">@item.Name</a></h5>
+                                <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss") <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    }
+
+                </div>
+                <!--/start-sign-up-->
+                <div class="sign_main">
+                    <h4 class="side">Đăng ký nhận tin</h4>
+                    <div class="sign_up">
+                        <p class="sign">Hãy đăng ký được cập nhật tin tức mới nhất!</p>
+                        <form>
+                            <input type="text" class="text" value="Họ Tên" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}">
+                            <input type="text" class="text" value="Địa chỉ email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email Address';}">
+                            <input type="submit" value="Đăng ký">
+                        </form>
+                    </div>
+                </div>
+                <!--//end-sign-up-->
+
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!--//end-mag-inner-->
+    </div>
+</div>
+<!--//end-main-->

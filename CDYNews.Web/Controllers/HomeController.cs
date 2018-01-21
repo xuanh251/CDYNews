@@ -26,7 +26,7 @@ namespace CDYNews.Web.Controllers
             var BannerPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetBanner());
             var categoriesMenuView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAll());
             var categoriesListView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAllByParentId());
-            var mostVisitedPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.MostViewCountPost());
+            var mostVisitedPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.MostViewCountPost().Take(3));
             var healthPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetHealthPost());
             var educationPostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetEducationPost());
             var sciencePostView = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetSciencePost());
@@ -48,7 +48,12 @@ namespace CDYNews.Web.Controllers
         [ChildActionOnly]
         public ActionResult Footer()
         {
-            return PartialView();
+            var categoriesView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAll());
+            var postView= Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetAll());
+            FooterViewModel footerViewModel = new FooterViewModel();
+            footerViewModel.PostCategories = categoriesView;
+            footerViewModel.Posts = postView;
+            return PartialView(footerViewModel);
         }
         [ChildActionOnly]
         public ActionResult Header()
@@ -56,6 +61,11 @@ namespace CDYNews.Web.Controllers
             var model = _postCategoryService.GetAll();
             var postCategories = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(model);
             return PartialView(postCategories.Where(s=>s.HomeFlag&&s.Status));
+        }
+        [ChildActionOnly]
+        public ActionResult Scripts()
+        {
+            return PartialView();
         }
     }
 }

@@ -10,7 +10,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html"><h1>Medical<span> News</span></h1> </a>
+                    <a class="navbar-brand" href="home.html"><h1>Medical<span> News</span></h1> </a>
                 </div>
                 <!--/.navbar-header-->
 
@@ -18,7 +18,7 @@
                     <ul class="nav navbar-nav">
                         @foreach (var postCategory in Model.OrderBy(s => s.DisplayOrder))
                         {
-                            var url = "/" + postCategory.Alias;
+                            var url = "/" + postCategory.Alias + ".pc-" + postCategory.ID + ".html";
                             var childPostCategories = Model.Where(s => s.ParentID == postCategory.ID);
                             if (childPostCategories.Count() != 0)
                             {
@@ -27,7 +27,7 @@
                                     <ul class="dropdown-menu">
                                         @foreach (var childPostCategory in childPostCategories)
                                         {
-                                            var childUrl = "/" + childPostCategory.Alias;
+                                            var childUrl = "/" + childPostCategory.Alias + ".pc-" + childPostCategory.ID + ".html";
                                             <li><a href="@childUrl">@childPostCategory.Name</a></li>
                                             <li class="divider"></li>
                                         }
@@ -44,9 +44,17 @@
                         }
                         <li><a href="account.html">Đăng nhập</a></li>
                     </ul>
+
                 </div>
-                <!--/.navbar-collapse-->
-                <!--/.navbar-->
+                <form method="get" action="/tim-kiem.html">
+                    <div class="box">
+                        <div class="container-4">
+                            <input type="search" id="txtKeyword" name="keyword" placeholder="Tìm kiếm..." />
+                            <button type="submit" class="icon"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+
             </div>
         </nav>
     </div>

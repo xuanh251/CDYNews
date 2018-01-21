@@ -91,7 +91,6 @@
                     pageSize: 10
                 }
             }
-
             apiService.get('/api/post/getall', config, function (result) {
                 if (result.data.TotalCount == 0) {
                     notificationService.displayWarning('Không tìm thấy bản ghi nào!')

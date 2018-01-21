@@ -1,0 +1,223 @@
+﻿@model CDYNews.Web.Infrastructure.Core.PaginationSet<CDYNews.Web.Models.PostViewModel>
+@{
+    ViewBag.Title = "Tìm kiếm cho "+ViewBag.SearchTitle;
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+<div class="banner two">
+    <div class="container">
+        <h2 class="inner-tittle">Kết quả tìm kiếm cho: @ViewBag.SearchTitle</h2>
+    </div>
+</div>
+<!--//end-banner-->
+<!--/start-main-->
+<div class="main-content">
+    <div class="container">
+        <div class="mag-inner">
+            <div class="col-md-8 mag-innert-left">
+                <!--business-->
+                <div class="business art">
+                    <h3 class="tittle"><i class="glyphicon glyphicon-briefcase"></i>Tìm thấy @Model.Count kết quả</h3>
+                    @foreach (var item in Model.Items)
+                    {
+                        var url = "/" + item.Alias + ".p-" + item.ID + ".html";
+                        <div class="business-inner">
+                            <div class="col-md-6 b-img"><a href="@url"><img class="img-responsive" src="@item.Image" alt="" /></a></div>
+                            <div class="col-md-6 b-text">
+                                <h5><a href="@url">@item.Name</a></h5>
+                                <h6><i class="glyphicon glyphicon-time"></i>@item.CreatedDate</h6> <div class="icons"><a href="@url"><i class="glyphicon glyphicon-user"></i>Admin</a><a href="#"><i class="glyphicon glyphicon-comment"></i>2</a><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i>152</a><a href="#"><i class="glyphicon glyphicon-thumbs-down"></i> 26</a></div>
+                                <div class="clearfix"></div>
+                                <p>@item.Description</p>
+                                <a class="read" href="@url">Xem thêm</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    }
+                    @if (Model.TotalPage > 1)
+                    {
+                        // Create numeric links
+                        var startPageIndex = Math.Max(1, Model.Page - Model.MaxPage / 2);
+                        var endPageIndex = Math.Min(Model.TotalPage, Model.Page + Model.MaxPage / 2);
+
+                        <nav>
+                            <ul class="pagination">
+                                @if (Model.Page > 1)
+                                {
+                                    <li>
+                                        <a href="?page=1" aria-label="First">
+                                            <i class="fa fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="?page=@(Model.Page-1)" aria-label="Previous">
+                                            <i class="fa fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                }
+
+                                @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                {
+                                    if (Model.Page == i)
+                                    {
+                                        <li class="active"><a href="?page=@i" title="Trang @i">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="?page=@i" title="Trang @i">@i</a></li>
+                                    }
+                                }
+                                @if (Model.Page < Model.TotalPage)
+                                {
+                                    <li>
+                                        <a href="?page=@(Model.Page+1)" aria-label="Next">
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="?page=@Model.TotalPage" aria-label="Last">
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    }
+
+                </div>
+                <!--//business-->
+            </div>
+            <div class="col-md-4 mag-inner-right">
+                <div class="connect">
+                    <h4 class="side">STAY CONNECTED</h4>
+                    <ul class="stay">
+                        <li class="c5-element-facebook"><a href="#"><span class="icon"></span><h5>700</h5><span class="text">Followers</span></a></li>
+                        <li class="c5-element-twitter"><a href="#"><span class="icon1"></span><h5>201</h5><span class="text">Followers</span></a></li>
+                        <li class="c5-element-gg"><a href="#"><span class="icon2"></span><h5>111</h5><span class="text">Followers</span></a></li>
+                        <li class="c5-element-dribble"><a href="#"><span class="icon3"></span><h5>99</h5><span class="text">Followers</span></a></li>
+
+                    </ul>
+                </div>
+                <div class="modern">
+                    <h4 class="side">Make it modern</h4>
+                    <div id="example1">
+                        <div id="owl-demo" class="owl-carousel text-center">
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="images/p1.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="images/p2.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="images/p33.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="images/p1.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="images/p1.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="images/p2.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="images/p33.jpg" alt="" />
+                            </div>
+                            <div class="item">
+
+                                <img class="img-responsive lot" src="images/p1.jpg" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/start-sign-up-->
+                <div class="sign_main">
+                    <h4 class="side">Sign  Up  for    Newsletter</h4>
+                    <div class="sign_up">
+                        <p class="sign">Sign up to receive our free newsletters!</p>
+                        <form>
+                            <input type="text" class="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}">
+                            <input type="text" class="text" value="Email Address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email Address';}">
+                            <input type="submit" value="submit">
+                        </form>
+                        <p class="spam">We do not spam. We value your privacy!</p>
+                    </div>
+                </div>
+                <!--//end-sign-up-->
+                <h4 class="side">Popular Posts</h4>
+                <div class="edit-pics">
+                    <div class="editor-pics">
+                        <div class="col-md-3 item-pic">
+                            <a href="single.html">  <img src="images/f4.jpg" class="img-responsive" alt="" /></a>
+
+                        </div>
+                        <div class="col-md-9 item-details">
+                            <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
+                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="editor-pics">
+                        <div class="col-md-3 item-pic">
+                            <a href="single.html"> <img src="images/f1.jpg" class="img-responsive" alt="" /></a>
+
+                        </div>
+                        <div class="col-md-9 item-details">
+                            <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
+                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="editor-pics">
+                        <div class="col-md-3 item-pic">
+                            <a href="single.html"> <img src="images/f1.jpg" class="img-responsive" alt="" /></a>
+
+                        </div>
+                        <div class="col-md-9 item-details">
+                            <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
+                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="editor-pics">
+                        <div class="col-md-3 item-pic">
+                            <a href="single.html"><img src="images/f4.jpg" class="img-responsive" alt="" /></a>
+
+                        </div>
+                        <div class="col-md-9 item-details">
+                            <h5 class="inner two"><a href="single.html">New iPad App to stimulate your Guitar</a></h5>
+                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <!--//edit-pics-->
+                <!--/top-news-->
+                <div class="top-news">
+                    <h4 class="side">Top News</h4>
+                    <div class="top-inner">
+                        <div class="top-text">
+                            <a href="single.html"><img src="images/slp.jpg" class="img-responsive" alt="" /></a>
+                            <h5 class="top"><a href="single.html">POLL: HOW LONG DO YOU OFTEN SLEEP AT NIGHT</a></h5>
+                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                        </div>
+                        <div class="top-text two">
+                            <a href="single.html"><img src="images/dest.jpg" class="img-responsive" alt="" /></a>
+                            <h5 class="top"><a href="single.html">YOU’VE NEVER SEEN VIVID SYDNEY QUITE LIKE THIS</a></h5>
+                            <div class="td-post-date two"><i class="glyphicon glyphicon-time"></i>Feb 22, 2015 <a href="#"><i class="glyphicon glyphicon-comment"></i>0 </a></div>
+                        </div>
+                    </div>
+                </div>
+                <!--//top-news-->
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!--//end-mag-inner-->
+    </div>
+</div>
+<!--//end-main-->

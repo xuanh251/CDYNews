@@ -1,99 +1,60 @@
-﻿<div class="footer-section">
+﻿@model CDYNews.Web.Models.FooterViewModel
+<div class="footer-section">
     <div class="container">
         <div class="footer-grids">
+
             <div class="col-md-4 footer-grid">
-                <h4>EDITOR PICKS</h4>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="images/f1.jpg" class="img-responsive" alt="" />
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner"><a href="#">More Than 120 ER Visits Linked To Synthetic WordPress In NYC...</a></h5>
-                        <div class="td-post-date">Feb 22, 2015</div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="images/f2.jpg" class="img-responsive" alt="" />
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner"><a href="#">More Than 120 ER Visits Linked To Synthetic WordPress In NYC...</a></h5>
-                        <div class="td-post-date">Feb 22, 2015</div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="images/f3.jpg" class="img-responsive" alt="" />
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner"><a href="#">More Than 120 ER Visits Linked To Synthetic WordPress In NYC...</a></h5>
-                        <div class="td-post-date">Feb 22, 2015</div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="col-md-4 footer-grid">
-                <h4>POPULAR POSTS</h4>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="images/f4.jpg" class="img-responsive" alt="" />
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner"><a href="#">More Than 120 ER Visits Linked To Synthetic WordPress In NYC...</a></h5>
-                        <div class="td-post-date">Feb 22, 2015</div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="images/f3.jpg" class="img-responsive" alt="" />
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner"><a href="#">More Than 120 ER Visits Linked To Synthetic WordPress In NYC...</a></h5>
-                        <div class="td-post-date">Feb 22, 2015</div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="editor-pics">
-                    <div class="col-md-3 item-pic">
-                        <img src="images/f2.jpg" class="img-responsive" alt="" />
-
-                    </div>
-                    <div class="col-md-9 item-details">
-                        <h5 class="inner"><a href="#">More Than 120 ER Visits Linked To Synthetic WordPress In NYC...</a></h5>
-                        <div class="td-post-date">Feb 22, 2015</div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="col-md-4 footer-grid">
-                <h4>POPULAR CATEGORY</h4>
+                <h4>Danh mục phổ biến</h4>
                 <ul class="td-pb-padding-side">
-                    <li><a href="#">Architecture<span class="td-cat-no">15</span></a></li>
-                    <li><a href="#">New look 2015<span class="td-cat-no">14</span></a></li>
-                    <li><a href="#">Gadgets<span class="td-cat-no">14</span></a></li>
-                    <li><a href="#">Mobile and Phones<span class="td-cat-no">14</span></a></li>
-                    <li><a href="#">Recipes<span class="td-cat-no">14</span></a></li>
-                    <li><a href="#">Decorating<span class="td-cat-no">14</span></a></li>
-                    <li><a href="#">Interiors<span class="td-cat-no">14</span></a></li>
-                    <li><a href="#">Street fashion<span class="td-cat-no">13</span></a></li>
-                    <li><a href="#">Vogue<span class="td-cat-no">13</span></a></li>
+                    @foreach (var item in Model.PostCategories)
+                    {
+                        var url = "/" + item.Alias + ".pc-" + item.ID + ".html";
+                        var postCount = (from a in Model.PostCategories
+                                         from b in Model.Posts.Where(s => s.CategoryID == a.ID)
+                                         where a.ID == item.ID
+                                         select a.ID).ToList().Count;
+                        <li><a href="@url">@item.Name<span class="td-cat-no">@postCount</span></a></li>
+                    }
                 </ul>
                 <div class="clearfix"></div>
             </div>
-            <div class="clearfix"></div>
+            <div class="col-md-4 footer-grid">
+                <h4>Giới thiệu</h4>
+                <div class="editor-pics">
+                    <p style="color:#9B9EA2; text-align: justify;text-justify: inter-word;">Trường Cao đẳng Y tế Quảng Nam, tiền thân là trường Cán bộ Y tế Quảng Nam và Trường Cán bộ Y tế Quảng Đà, được thành lập năm 1961, với nhiệm vụ đào tạo nguồn cán bộ Y- Dược, phục vụ cho chiến trường khu V, đặc biệt là tỉnh Quảng Đà và Quảng Nam - Đà Nẵng trước đây và tỉnh Quảng Nam ngày nay. </p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-md-4 footer-grid">
+                <h4>Liên hệ chúng tôi</h4>
+                <address>
+                    <ul class="location">
+                        <li><span class="glyphicon glyphicon-map-marker"></span></li>
+                        <li>49 Nguyễn Du, An Mỹ, Tam Kỳ, Quảng Nam</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    <ul class="location">
+                        <li><span class="glyphicon glyphicon-earphone"></span></li>
+                        <li>0235 3828 267</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    <ul class="location">
+                        <li><span class="glyphicon glyphicon-envelope"></span></li>
+                        <li><a href="mailto:info@example.com">mail@example.com</a></li>
+                        <div class="clearfix"></div>
+                    </ul>
+                </address>
+                <section class="social">
+                    <a href="" class="icon fb">f</a>
+                    <a href="" class="icon tw">t</a>
+                    <a href="" class="icon gp">g</a>
+                </section>
+                <div class="clearfix"></div>
+            </div>
         </div>
     </div>
-</div>
-<!--//end-footer-section-->
-<!--/start-copyright-section-->
-<div class="copyright">
-    <p>&copy; @DateTime.Now.Year K15QnamUni. All Rights Reserved | Design by <a target="_blank" href="http://facebook.com/xuanh251">Virtus</a> </p>
-</div>
+    <!--//end-footer-section-->
+    <!--/start-copyright-section-->
+    <div class="copyright">
+        <p>&copy; @DateTime.Now.Year K15QnamUni. All Rights Reserved | Design by <a target="_blank" href="http://facebook.com/xuanh251">Virtus</a> </p>
+    </div>

@@ -1,0 +1,25 @@
+﻿<script src="~/Assets/client/js/jquery.min.js"></script>
+<script src="~/Assets/admin/libs/jquery-ui/jquery-ui.min.js"></script>
+<script src="~/Assets/client/js/bootstrap-3.1.1.min.js"></script>
+<script src="~/Assets/client/js/move-top.js"></script>
+<script src="~/Assets/client/js/easing.js"></script>
+<script src="~/Assets/client/js/responsiveslides.min.js"></script>
+<script src="~/Assets/client/js/owl.carousel.js"></script>
+<script src="~/Assets/client/js/pageComponents.js"></script>
+<script src="~/Assets/client/js/common.js"></script>
+<script>
+    var oldPos = 0;
+    $(window).scroll(function() {
+        var height = $(window).scrollTop();
+        if (height>oldPos) {
+            $(".box").slideUp();
+            oldPos = height;
+        }
+        else {
+            $(".box").slideDown();
+            oldPos = height;
+        }
+        
+    })
+</script>
+
