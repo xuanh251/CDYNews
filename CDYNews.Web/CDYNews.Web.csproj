@@ -214,6 +214,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -235,6 +236,9 @@
     <Content Include="app\app.js" />
     <Content Include="app\components\home\homeController.js" />
     <Content Include="app\components\home\homeView.html" />
+    <Content Include="app\components\login\loginController.js" />
+    <Content Include="app\components\login\loginView.html" />
+    <Content Include="app\components\home\rootController.js" />
     <Content Include="app\components\posts\postListView.html" />
     <Content Include="app\components\posts\postEditView.html" />
     <Content Include="app\components\posts\postAddView.html" />
@@ -254,8 +258,12 @@
     <Content Include="app\shared\filter\statusFilter.js" />
     <Content Include="app\shared\module\cdynews.common.js" />
     <Content Include="app\shared\services\apiService.js" />
+    <Content Include="app\shared\services\authData.js" />
+    <Content Include="app\shared\services\authenticationService.js" />
     <Content Include="app\shared\services\commonService.js" />
+    <Content Include="app\shared\services\loginService.js" />
     <Content Include="app\shared\services\notificationService.js" />
+    <Content Include="app\shared\views\baseView.html" />
     <Content Include="Assets\admin\css\AdminLTE.css" />
     <Content Include="Assets\admin\css\AdminLTE.min.css" />
     <Content Include="Assets\admin\css\custom.css" />
@@ -4190,6 +4198,7 @@
     <Content Include="Assets\client\css\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Assets\client\css\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\client\css\font-awesome-4.7.0\HELP-US-OUT.txt" />
+    <Content Include="Assets\client\css\modalStyle.css" />
     <Content Include="Assets\client\css\owl.carousel.css" />
     <Content Include="Assets\client\css\searchbox.css" />
     <Content Include="Assets\client\css\style.css" />
@@ -4238,6 +4247,7 @@
     <Content Include="Assets\client\js\easing.js" />
     <Content Include="Assets\client\js\jquery.flexisel.js" />
     <Content Include="Assets\client\js\jquery.min.js" />
+    <Content Include="Assets\client\js\modalStyle.js" />
     <Content Include="Assets\client\js\move-top.js" />
     <Content Include="Assets\client\js\owl.carousel.js" />
     <Content Include="Assets\client\js\pageComponents.js" />
@@ -4259,12 +4269,12 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\components\login\" />
     <Folder Include="app\components\roles\" />
     <Folder Include="app\components\users\" />
     <Folder Include="App_Data\" />
     <Folder Include="Templates\" />
     <Folder Include="UploadFiles\" />
+    <Folder Include="Views\Page\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

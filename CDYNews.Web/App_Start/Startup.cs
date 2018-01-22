@@ -27,6 +27,7 @@ namespace CDYNews.Web.App_Start
         {
             // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
             ConfigAutofac(app);
+            ConfigureAuth(app);
         }
         private void ConfigAutofac(IAppBuilder app)
         {

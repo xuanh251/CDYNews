@@ -20,6 +20,7 @@ namespace CDYNews.Web.Controllers
             _postService = postService;
         }
         // GET: Home
+        [OutputCache(Duration = 60,Location =System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult Index()
         {
             //component
@@ -46,6 +47,7 @@ namespace CDYNews.Web.Controllers
             return View(homeViewModel);
         }
         [ChildActionOnly]
+        [OutputCache(Duration =3600)]
         public ActionResult Footer()
         {
             var categoriesView = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAll());
@@ -56,6 +58,7 @@ namespace CDYNews.Web.Controllers
             return PartialView(footerViewModel);
         }
         [ChildActionOnly]
+        [OutputCache(Duration = 3600)]
         public ActionResult Header()
         {
             var model = _postCategoryService.GetAll();

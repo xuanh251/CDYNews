@@ -45,6 +45,12 @@ namespace CDYNews.Web
               namespaces: new string[] { "CDYNews.Web.Controllers" }
         );
             routes.MapRoute(
+            name: "Page",
+            url: "trang/{alias}.html",
+            defaults: new { controller = "Page", action = "Index", alias = UrlParameter.Optional },
+              namespaces: new string[] { "CDYNews.Web.Controllers" }
+        );
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },

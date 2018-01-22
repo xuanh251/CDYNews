@@ -4,14 +4,17 @@
     function config($stateProvider, $urlRouterProvider) {
         $stateProvider.state('post_categories', {
             url: "/post_categories",
+            parent: 'base',
             templateUrl: "/app/components/post_categories/postCategoryListView.html",
             controller: "postCategoryListController"
         }).state('add_post_categories', {
             url: "/add_post_categories",
+            parent: 'base',
             templateUrl: "/app/components/post_categories/postCategoryAddView.html",
             controller: "postCategoryAddController"
         }).state('edit_post_categories', {
             url: "/edit_post_categories/:id",
+            parent: 'base',
             templateUrl: "/app/components/post_categories/postCategoryEditView.html",
             controller: "postCategoryEditController"
         });
