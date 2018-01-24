@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Web.Http;
+using CDYNews.Data.Repositories;
 
 namespace CDYNews.Web
 {
@@ -10,7 +12,6 @@ namespace CDYNews.Web
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 

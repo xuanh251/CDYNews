@@ -1,6 +1,7 @@
 ﻿<script src="~/Assets/client/js/jquery.min.js"></script>
 <script src="~/Assets/admin/libs/jquery-ui/jquery-ui.min.js"></script>
 <script src="~/Assets/client/js/bootstrap-3.1.1.min.js"></script>
+<script src="~/Assets/admin/libs/toastr/toastr.min.js"></script>
 <script src="~/Assets/client/js/move-top.js"></script>
 <script src="~/Assets/client/js/easing.js"></script>
 <script src="~/Assets/client/js/responsiveslides.min.js"></script>
@@ -8,11 +9,17 @@
 <script src="~/Assets/client/js/pageComponents.js"></script>
 <script src="~/Assets/client/js/common.js"></script>
 <script src="~/Assets/client/js/modalStyle.js"></script>
+
+<script src="~/Assets/client/js/CustomModal/classie.js"></script>
+<script src="~/Assets/client/js/CustomModal/modalEffects.js"></script>
+<script src="~/Assets/client/js/CustomModal/cssParser.js"></script>
+
+@*<script src="~/Assets/client/js/CustomModal/css-filters-polyfill.js"></script>*@
 <script>
     var oldPos = 0;
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         var height = $(window).scrollTop();
-        if (height>oldPos) {
+        if (height > oldPos) {
             $(".box").slideUp();
             oldPos = height;
         }
@@ -20,7 +27,7 @@
             $(".box").slideDown();
             oldPos = height;
         }
-        
+
     })
 </script>
 

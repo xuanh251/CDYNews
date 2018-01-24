@@ -1,4 +1,5 @@
-﻿<!DOCTYPE HTML>
+﻿
+<!DOCTYPE HTML>
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -6,6 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="shortcut icon" href="~/favicon.ico" />
     <meta name="keywords" content="" />
+
     <link href="~/Assets/client/css/bootstrap.css" rel="stylesheet" />
     <link href="~/Assets/client/css/modalStyle.css" rel="stylesheet" />
     <link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" />
@@ -15,10 +17,40 @@
     <link href="~/Assets/client/css/flexslider.css" rel="stylesheet" />
     <link href="~/Assets/client/css/custom.css" rel="stylesheet" />
     <link href="~/Assets/client/css/searchbox.css" rel="stylesheet" />
+    <link href="~/Assets/client/css/FeedbackButton.css" rel="stylesheet" />
+    <link href="~/Assets/client/css/CustomModal/component.css" rel="stylesheet" />
+    <link href="~/Assets/client/css/CustomModal/default.css" rel="stylesheet" />
+    <link href="~/Assets/admin/libs/toastr/toastr.min.css" rel="stylesheet" />
+
 
 </head>
 <body>
-    
+    <div class="md-modal md-effect-8" id="modal-1">
+        <div class="md-content">
+            <h3>Gửi phản hồi cho chúng tôi</h3>
+            <div>
+                <p style="text-align:center">Chúng tôi chân thành cảm ơn những ý kiến đóng góp của bạn! Điều này sẽ góp phần làm cho website ngày càng hoàn thiện hơn!</p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="fbname" name="name" placeholder="Tên">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="fbemail" name="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" type="textarea" id="fbmessage" placeholder="Nội dung" maxlength="140" rows="4"></textarea>
+                    </div>
+
+                </form>
+                <button class="md-close"><i class="fa fa-times" aria-hidden="true"></i>Đóng</button>
+                <button style="padding: 0.6em 1.2em;" id="btnSendFeedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Gửi phản hồi</button>
+
+            </div>
+        </div>
+    </div>
+    <button id="btnFeedbackPopup" class="feedback-button md-trigger" data-modal="modal-1">Feedback</button>
+    <input id="uf" type="hidden" name="name" value="" />
+
     @{ Html.RenderAction("Header", "Home");}
     <!--/start-banner-->
     @RenderBody()
@@ -27,5 +59,6 @@
     @{ Html.RenderAction("Footer", "Home");}
     <a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
     @{ Html.RenderAction("Scripts", "Home");}
+    
 </body>
 </html>

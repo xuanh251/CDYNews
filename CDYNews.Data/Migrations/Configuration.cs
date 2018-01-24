@@ -17,7 +17,8 @@ namespace CDYNews.Data.Migrations
 
         protected override void Seed(CDYNewsDbContext context)
         {
-            addPage(context);
+            //addPage(context);
+            CreateContactDetail(context);
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -60,6 +61,34 @@ namespace CDYNews.Data.Migrations
             };
             context.Pages.Add(page);
             context.SaveChanges();
+        }
+        public void CreateContactDetail(CDYNewsDbContext context)
+        {
+            if (context.ContactDetails.Count()==0)
+            {
+                try
+                {
+                    var contactDetail = new ContactDetail()
+                    {
+                        Name="Trang tin tức trường Cao đẳng Y tế Quảng Nam.",
+                        Address= "3 Nguyễn Du, Phường An Mỹ, Tam Kỳ, Quảng Nam",
+                        Email="cdy@gmail.com",
+                        Lat= 15.5723344,
+                        Lng= 108.4746795,
+                        Phone= "+84 235 3828 267",
+                        Website= "cdytqn.edu.vn",
+                        Other="",
+                        Status=true
+                    };
+                    context.ContactDetails.Add(contactDetail);
+                    context.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
         }
     }
 }

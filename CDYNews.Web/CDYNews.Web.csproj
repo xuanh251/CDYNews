@@ -213,6 +213,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Infrastructure\Extensions\EntityExtensions.cs" />
     <Compile Include="Mapping\AutoMapperConfiguration.cs" />
     <Compile Include="Models\DetailViewModel.cs" />
+    <Compile Include="Models\FeedbackViewModel.cs" />
     <Compile Include="Models\FooterViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\PostCategoryViewModel.cs" />
@@ -4193,6 +4195,9 @@
     <Content Include="Assets\admin\libs\toastr\toastr.min.js" />
     <Content Include="Assets\client\css\bootstrap.css" />
     <Content Include="Assets\client\css\custom.css" />
+    <Content Include="Assets\client\css\CustomModal\component.css" />
+    <Content Include="Assets\client\css\CustomModal\default.css" />
+    <Content Include="Assets\client\css\FeedbackButton.css" />
     <Content Include="Assets\client\css\flexslider.css" />
     <Content Include="Assets\client\css\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Assets\client\css\font-awesome-4.7.0\css\font-awesome.min.css" />
@@ -4244,6 +4249,11 @@
     <Content Include="Assets\client\images\time2.jpg" />
     <Content Include="Assets\client\js\bootstrap-3.1.1.min.js" />
     <Content Include="Assets\client\js\common.js" />
+    <Content Include="Assets\client\js\CustomModal\classie.js" />
+    <Content Include="Assets\client\js\CustomModal\css-filters-polyfill.js" />
+    <Content Include="Assets\client\js\CustomModal\cssParser.js" />
+    <Content Include="Assets\client\js\CustomModal\modalEffects.js" />
+    <Content Include="Assets\client\js\CustomModal\modernizr.custom.js" />
     <Content Include="Assets\client\js\easing.js" />
     <Content Include="Assets\client\js\jquery.flexisel.js" />
     <Content Include="Assets\client\js\jquery.min.js" />
@@ -4274,7 +4284,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Templates\" />
     <Folder Include="UploadFiles\" />
-    <Folder Include="Views\Page\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -4656,6 +4665,7 @@
     <Content Include="Views\Shared\Scripts.cshtml" />
     <Content Include="Views\Post\Search.cshtml" />
     <Content Include="Views\Post\ListPostByTag.cshtml" />
+    <Content Include="Views\Page\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CDYNews.Common\CDYNews.Common.csproj">
@@ -4706,7 +4716,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1714</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1716/</IISUrl>
+          <IISUrl>http://localhost:1711/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

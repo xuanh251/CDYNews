@@ -1,0 +1,20 @@
+﻿.feedback-button {
+    height: 40px;
+    border: solid 1px #CCCCCC;
+    border-radius:10px 10px 0px 0px;
+    background: #333;
+    line-height: 32px;
+    font-weight: 600;
+    color: white;
+    transform: rotate(-90deg);
+    font-size: 17px;
+    position: fixed;
+    right: -37px;
+    top: 45%;
+    z-index: 999;
+}
+
+    .feedback-button:hover {
+        background-color: #009bd5;
+        transition: all .55s ease;
+    }

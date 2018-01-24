@@ -16,6 +16,7 @@ using System.Web;
 using Microsoft.Owin.Security.DataProtection;
 using Autofac.Integration.WebApi;
 using Autofac.Integration.Mvc;
+using Autofac.Features.ResolveAnything;
 
 [assembly: OwinStartup(typeof(CDYNews.Web.App_Start.Startup))]
 
@@ -58,7 +59,6 @@ namespace CDYNews.Web.App_Start
             builder.RegisterAssemblyTypes(typeof(PostCategoryService).Assembly)
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
-
             Autofac.IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 

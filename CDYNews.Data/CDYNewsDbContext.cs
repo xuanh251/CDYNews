@@ -35,6 +35,8 @@ namespace CDYNews.Data
         public DbSet<ApplicationRoleGroup> ApplicationRoleGroups { get; set; }
         public DbSet<ApplicationUserGroup> ApplicationUserGroups { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<ContactDetail> ContactDetails { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
         public static CDYNewsDbContext Create()
         {
             return new CDYNewsDbContext();

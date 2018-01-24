@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CommentService.cs" />
     <Compile Include="ErrorLogService.cs" />
+    <Compile Include="FeedbackService.cs" />
     <Compile Include="PostCategoryService.cs" />
     <Compile Include="PostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

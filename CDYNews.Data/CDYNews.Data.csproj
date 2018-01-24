@@ -81,6 +81,30 @@
     <Compile Include="Migrations\201801212110078_updatePostTag.Designer.cs">
       <DependentUpon>201801212110078_updatePostTag.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801221550535_addTableContactDetail.cs" />
+    <Compile Include="Migrations\201801221550535_addTableContactDetail.Designer.cs">
+      <DependentUpon>201801221550535_addTableContactDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801231825103_modifiedContactDetail.cs" />
+    <Compile Include="Migrations\201801231825103_modifiedContactDetail.Designer.cs">
+      <DependentUpon>201801231825103_modifiedContactDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801241258395_addTableFeedback.cs" />
+    <Compile Include="Migrations\201801241258395_addTableFeedback.Designer.cs">
+      <DependentUpon>201801241258395_addTableFeedback.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801242010133_updFeedback.cs" />
+    <Compile Include="Migrations\201801242010133_updFeedback.Designer.cs">
+      <DependentUpon>201801242010133_updFeedback.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801242033351_fb2.cs" />
+    <Compile Include="Migrations\201801242033351_fb2.Designer.cs">
+      <DependentUpon>201801242033351_fb2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801242047033_fb3.cs" />
+    <Compile Include="Migrations\201801242047033_fb3.Designer.cs">
+      <DependentUpon>201801242047033_fb3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ApplicationGroupRepository.cs" />
@@ -89,6 +113,7 @@
     <Compile Include="Repositories\ApplicationUserGroupRepository.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
     <Compile Include="Repositories\ErrorLogRepository.cs" />
+    <Compile Include="Repositories\FeedbackRepository.cs" />
     <Compile Include="Repositories\FooterRepository.cs" />
     <Compile Include="Repositories\MenuGroupRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
@@ -132,6 +157,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801212110078_updatePostTag.resx">
       <DependentUpon>201801212110078_updatePostTag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801221550535_addTableContactDetail.resx">
+      <DependentUpon>201801221550535_addTableContactDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801231825103_modifiedContactDetail.resx">
+      <DependentUpon>201801231825103_modifiedContactDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801241258395_addTableFeedback.resx">
+      <DependentUpon>201801241258395_addTableFeedback.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801242010133_updFeedback.resx">
+      <DependentUpon>201801242010133_updFeedback.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801242033351_fb2.resx">
+      <DependentUpon>201801242033351_fb2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801242047033_fb3.resx">
+      <DependentUpon>201801242047033_fb3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

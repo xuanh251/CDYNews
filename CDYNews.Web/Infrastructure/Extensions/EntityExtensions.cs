@@ -48,5 +48,12 @@ namespace CDYNews.Web.Infrastructure.Extensions
             post.Status = postViewModel.Status;
             post.Tags = postViewModel.Tags;
         }
+        public static void UpdateFeedback(this Feedback feedback, FeedbackViewModel feedbackViewModel)
+        {
+            feedback.Name = feedbackViewModel.Name;
+            feedback.Email = feedbackViewModel.Email;
+            feedback.Message = feedbackViewModel.Message;
+            feedback.UserInfo = feedbackViewModel.UserInfo;
+        }
     }
 }

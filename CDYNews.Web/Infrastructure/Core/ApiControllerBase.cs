@@ -54,7 +54,7 @@ namespace CDYNews.Web.Infrastructure.Core
             return response;
         }
 
-        //ghi lỗi vào database
+        //hàm ghi lỗi vào database
         private void LogError(Exception ex)
         {
             try
