@@ -13,9 +13,12 @@ using CDYNews.Web.Infrastructure.Core;
 using CDYNews.Web.Infrastructure.Extensions;
 using CDYNews.Web.Models;
 using CDYNews.Data;
+using System.Text;
+using CDYNews.Common;
 
 namespace CDYNews.Web.Controllers
 {
+    [RoutePrefix("api/feedback")]
     public class FeedbackController : ApiController
     {
         // GET: api/Feedback
@@ -31,7 +34,8 @@ namespace CDYNews.Web.Controllers
         }
 
         // POST: api/Feedback
-        public void Post([FromBody]FeedbackViewModel feedbackViewModel)
+        [Route("sendfeedback")]
+        public void SendFeebback([FromBody]FeedbackViewModel feedbackViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -42,6 +46,8 @@ namespace CDYNews.Web.Controllers
                 CDYNewsDbContext db = new CDYNewsDbContext();
                 db.Feedbacks.Add(feedback);
                 db.SaveChanges();
+                var toEmail = feedbackViewModel.Email;
+                MailHelper.SendMail(toEmail, "Cảm ơn bạn đã gửi phản hồi", "Chúng tôi đã nhận được phản hồi từ bạn.");
             }
             else
             {

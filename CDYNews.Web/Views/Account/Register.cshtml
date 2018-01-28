@@ -1,90 +1,76 @@
-﻿@model CDYNews.Web.Infrastructure.Core.PaginationSet<CDYNews.Web.Models.PostViewModel>
+﻿@model CDYNews.Web.Models.RegisterViewModel
+@using BotDetect.Web.Mvc;
 @{
-    ViewBag.Title = "PostCategory";
+    ViewBag.Title = "Register";
     Layout = "~/Views/Shared/Layouts.cshtml";
-    var category = (CDYNews.Web.Models.PostCategoryViewModel)ViewBag.Category;
 }
 <div class="topSlideNews two">
     <div class="container">
-        <h2 class="inner-tittle">@category.Name</h2>
+        <h2 class="inner-tittle">Trang người dùng</h2>
     </div>
 </div>
-<!--//end-banner-->
 <!--/start-main-->
 <div class="main-content">
     <div class="container">
         <div class="mag-inner">
             <div class="col-md-8 mag-innert-left">
-                <!--business-->
-                <div class="business art">
-                    <h3 class="tittle"><i class="glyphicon glyphicon-briefcase"></i>@category.Name</h3>
-                    @foreach (var item in Model.Items)
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+                {
+                    if (ViewData["SuccessMsg"] != null)
                     {
-                        var url = "/" + item.Alias + ".p-" + item.ID + ".html";
-                        <div class="business-inner">
-                            <div class="col-md-6 b-img"><a href="@url"><img class="img-responsive" src="@item.Image" alt="" /></a></div>
-                            <div class="col-md-6 b-text">
-                                <h5><a href="@url">@item.Name</a></h5>
-                                <h6><i class="glyphicon glyphicon-time"></i>@item.CreatedDate</h6> <div class="icons"><a href="@url"><i class="glyphicon glyphicon-user"></i>Admin</a><a href="#"><i class="glyphicon glyphicon-comment"></i>2</a><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i>152</a><a href="#"><i class="glyphicon glyphicon-thumbs-down"></i> 26</a></div>
-                                <div class="clearfix"></div>
-                                <p>@item.Description</p>
-                                <a class="read" href="@url">Read More</a>
-                            </div>
-                            <div class="clearfix"></div>
+                        <div class="alert alert-success" role="alert">
+                            <strong>Chúc mừng bạn</strong> đã đăng ký thành công!
+                            <br />Vui lòng click vào nút đăng nhập ở bên trên để đăng nhập!
                         </div>
                     }
-                    @if (Model.TotalPage > 1)
+                    @Html.AntiForgeryToken();
+                    if (ViewData["ErrorMsg"] != null)
                     {
-                        // Create numeric links
-                        var startPageIndex = Math.Max(1, Model.Page - Model.MaxPage / 2);
-                        var endPageIndex = Math.Min(Model.TotalPage, Model.Page + Model.MaxPage / 2);
-
-                        <nav>
-                            <ul class="pagination">
-                                @if (Model.Page > 1)
-                                {
-                                    <li>
-                                        <a href="?page=1" aria-label="First">
-                                            <i class="fa fa-angle-double-left"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="?page=@(Model.Page-1)" aria-label="Previous">
-                                            <i class="fa fa-angle-double-left"></i>
-                                        </a>
-                                    </li>
-                                }
-
-                                @for (int i = startPageIndex; i <= endPageIndex; i++)
-                                {
-                                    if (Model.Page == i)
-                                    {
-                                        <li class="active"><a href="?page=@i" title="Trang @i">@i</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li><a href="?page=@i" title="Trang @i">@i</a></li>
-                                    }
-                                }
-                                @if (Model.Page < Model.TotalPage)
-                                {
-                                    <li>
-                                        <a href="?page=@(Model.Page+1)" aria-label="Next">
-                                            <i class="fa fa-angle-double-right"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="?page=@Model.TotalPage" aria-label="Last">
-                                            <i class="fa fa-angle-double-right"></i>
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </nav>
+                        <strong>Có lỗi xảy ra</strong>
+                        @Html.ValidationSummary(false, "", new { @class = "error alert alert-danger" })
                     }
-
-                </div>
-                <!--//business-->
+                    <div class="account-top heading">
+                        <h3>Đăng ký tài khoản mới</h3>
+                    </div>
+                    <div class="address">
+                        <span>Họ tên</span>
+                        @Html.TextBoxFor(model => model.FullName)
+                    </div>
+                    <div class="address">
+                        <span>Email</span>
+                        @Html.TextBoxFor(model => model.Email)
+                    </div>
+                    <div class="address">
+                        <span>Địa chỉ</span>
+                        @Html.TextBoxFor(model => model.Address)
+                    </div>
+                    <div class="address">
+                        <span>Số điện thoại</span>
+                        @Html.TextBoxFor(model => model.PhoneNumber)
+                    </div>
+                    <div class="address">
+                        <span>Tên đăng nhập</span>
+                        @Html.TextBoxFor(model => model.UserName)
+                    </div>
+                    <div class="address">
+                        <span>Mật khẩu</span>
+                        @Html.PasswordFor(model => model.Password)
+                    </div>
+                    <div class="address">
+                        <span>Xác nhận mật khẩu</span>
+                        <input id="confirmPass" type="password">
+                        <p type="text" id="errorPass"></p>
+                    </div>
+                    <div class="address">
+                        <span>Mã xác nhận</span>
+                        @{MvcCaptcha RegisterCaptcha = new MvcCaptcha("RegisterCaptcha");}
+                        @Html.Captcha(RegisterCaptcha)
+                        @Html.TextBox("CaptchaCode")
+                    </div>
+                    <div class="address new">
+                        <input id="btnRegister" type="submit" value="Đăng ký">
+                    </div>
+                }
             </div>
             <div class="col-md-4 mag-inner-right">
                 <div class="connect">

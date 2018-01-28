@@ -3,16 +3,16 @@
     ViewBag.Title = "Website tin tức trường cao đẳng Y tế Quảng Nam";
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
-<div class="banner">
+<div class="topSlideNews">
     <div class="container">
-        <div class="banner-inner">
+        <div class="topSlideNews-inner">
             <div class="callbacks_container">
                 <ul class="rslides callbacks callbacks1" id="slider4">
                     @foreach (var hotPost in Model.BannerPost)
                     {
                         var url = "/" + hotPost.Alias+".p-"+hotPost.ID+".html";
                         <li class="callbacks1_on" style="display: block; float: left; position: relative; opacity: 1; z-index: 2; transition: opacity 500ms ease-in-out;">
-                            <div class="banner-info">
+                            <div class="topSlideNews-info">
                                 <h3>@hotPost.Name</h3>
                                 <p>@hotPost.Description</p>
                                 <a type="button" class="btnReadHotNews" href="@url">Đọc tiếp</a>

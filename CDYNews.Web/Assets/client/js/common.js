@@ -49,14 +49,39 @@
         };
         $('#btnFeedbackPopup').off('click').on('click', function () {
             common.getUserInfo();
+            $('#btnSendFeedback').prop('disabled', true);
             $('#fbname').val('');
             $('#fbemail').val('');
             $('#fbmessage').val('');
         });
         $('#btnSendFeedback').off('click').on('click', function () {
             common.sendFeedback();
+        });
+        $('#Password').bind('input', function () {
+            $('#btnRegister').prop('disabled', true);
         })
+        $("#confirmPass").bind("input", function () {
+            if ($('#Password').val() != $(this).val()) {
+                $('#errorPass').text('Xác nhận mật khẩu không đúng!');
+                $('#btnRegister').prop('disabled', true);
+            }
+            else {
+                $('#errorPass').text('');
+                $('#btnRegister').prop('disabled', false);
+            }
+        });
     },
+    checkEmailFormat: function (email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    },
+    //checkValidation: function () {
+    //    var name = $('#fbname').val();
+    //    var email = $('#fbemail').val();
+    //    if () {
+
+    //    }
+    //},
     getUserInfo: function () {
         $.getJSON('//freegeoip.net/json/?callback=?', function (data) {
             $('#uf').val(JSON.stringify(data, null, 2));
@@ -69,9 +94,10 @@
         mydata.Message = $('#fbmessage').val();
         mydata.Status = true;
         mydata.UserInfo = $('#uf').val();
+        $('#btnSendFeedback').html('<i class="fa fa-paper-plane" aria-hidden="true"></i> Đang gửi...');
+        $('#btnSendFeedback').prop('disabled', true);
 
-
-        $.post('/api/feedback', mydata, function (res) {
+        $.post('/api/feedback/sendfeedback', mydata, function (res) {
             toastr.success("Gửi thành công!");
             $('.md-modal').removeClass('md-show');
         }, 'json')

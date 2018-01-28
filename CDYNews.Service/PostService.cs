@@ -93,6 +93,7 @@ namespace CDYNews.Service
 
         public Post Delete(int id)
         {
+            _postTagRepository.DeleteMulti(s => s.PostID == id);
             return _postRepository.Delete(id);
         }
 
@@ -164,13 +165,14 @@ namespace CDYNews.Service
 
         public IEnumerable<string> GetListPostByKeyWord(string keyword)
         {
-            return _postRepository.GetMulti(s => s.Status && s.Name.Contains(keyword)).Select(s => s.Name);
+            return _postRepository.GetMulti(s => s.Status && s.Name.Contains(keyword)).Select(s => s.Name).Take(5);
         }
 
 
         public IEnumerable<Tag> GetListTagByPostId(int id)
         {
-            return _postTagRepository.GetMulti(s => s.PostID == id, new string[] { "Tag" }).Select(y => y.Tag);
+            var result= _postTagRepository.GetMulti(s => s.PostID == id, new string[] { "Tag" }).Select(y => y.Tag);
+            return result;
         }
 
         public List<Post> GetRelativePost(int postId)

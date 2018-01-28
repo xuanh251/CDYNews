@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<CDYNews.Web.Models.PostCategoryViewModel>
+@using Microsoft.AspNet.Identity
 <div class="header" id="home">
     <div class="content white">
         <nav class="navbar navbar-default" role="navigation">
@@ -43,28 +44,44 @@
                             }
                         }
                         <li>
-                            <div id="modal-container">
-                                <div class="modal-background">
-                                    <div class="modal">
-                                        <h2>Đăng nhập thành viên</h2>
-                                        <form>
-                                            <div class="form-group">
-                                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Tên đăng nhập">
-                                                <small style="color: wheat;" id="emailHelp" class="form-text text-muted">Không chia sẻ tài khoản của bạn với bất kì ai.</small>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mật khẩu">
-                                            </div>
-                                            <button id="btnLogin" type="submit" class="btn btn-primary">Đăng nhập</button>
-                                            <button id="btnCancel" type="button" class="btn btn-default">Huỷ</button>
-                                        </form>
-                                       
+                            @*<div id="modal-container">
+                                    <div class="modal-background">
+                                        <div class="modal">
+                                            <h2>Đăng nhập thành viên</h2>
+                                            <form>
+                                                <div class="form-group">
+                                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Tên đăng nhập">
+                                                    <small style="color: wheat;" id="emailHelp" class="form-text text-muted">Không chia sẻ tài khoản của bạn với bất kì ai.</small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mật khẩu">
+                                                </div>
+                                                <button id="btnLogin" type="submit" class="btn btn-primary">Đăng nhập</button>
+                                                <button type="button" onclick="window.location.href='/dang-ky.html'" class="btn btn-primary">Đăng ký</button>
+                                                <button id="btnCancel" type="button" class="btn btn-default">Huỷ</button>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>*@
+                            @if (Request.IsAuthenticated)
+                            {
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-user" aria-hidden="true"></i> @User.Identity.Name
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="@Url.Action("Logout","Account")">Đăng xuất</a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="buttons">
-                                <div id="five" class="button"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng nhập</div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="buttons">
+                                    <div class="button" onclick="window.location.href='/dang-nhap.html'"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng nhập</div>
+                                </div>
+                            }
+
                         </li>
                     </ul>
 

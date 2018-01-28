@@ -14,6 +14,7 @@
                     }
                     else {
                         var stateService = $injector.get('$state');
+                        notificationService.displaySuccess("Đăng nhập thành công!");
                         stateService.go('home');
                     }
                 });

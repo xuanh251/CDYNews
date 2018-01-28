@@ -21,21 +21,24 @@
     <link href="~/Assets/client/css/CustomModal/component.css" rel="stylesheet" />
     <link href="~/Assets/client/css/CustomModal/default.css" rel="stylesheet" />
     <link href="~/Assets/admin/libs/toastr/toastr.min.css" rel="stylesheet" />
-
+    <link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
 
 </head>
-<body>
+<body ng-app>
     <div class="md-modal md-effect-8" id="modal-1">
         <div class="md-content">
             <h3>Gửi phản hồi cho chúng tôi</h3>
             <div>
                 <p style="text-align:center">Chúng tôi chân thành cảm ơn những ý kiến đóng góp của bạn! Điều này sẽ góp phần làm cho website ngày càng hoàn thiện hơn!</p>
-                <form role="form">
+                <form role="form" novalidate name="frmSendFeedback">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="fbname" name="name" placeholder="Tên">
+                        <input type="text" ng-model="name" required class="form-control" id="fbname" name="txtname" placeholder="Tên">
+                        <span ng-show="frmSendFeedback.txtname.$invalid" class="has-error">Phải nhập tên!</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="fbemail" name="email" placeholder="Email">
+                        <input type="email" ng-model="email" required class="form-control" id="fbemail" name="txtemail" placeholder="Email">
+                        <span ng-show="frmSendFeedback.txtemail.$error.email" class="has-error">Định dạng mail không đúng!</span>
+                        <span ng-show="frmSendFeedback.txtemail.$error.required" class="has-error">Phải nhập email!</span>
                     </div>
                     <div class="form-group">
                         <textarea class="form-control" type="textarea" id="fbmessage" placeholder="Nội dung" maxlength="140" rows="4"></textarea>
@@ -43,7 +46,8 @@
 
                 </form>
                 <button class="md-close"><i class="fa fa-times" aria-hidden="true"></i>Đóng</button>
-                <button style="padding: 0.6em 1.2em;" id="btnSendFeedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Gửi phản hồi</button>
+                <button ng-disabled="frmSendFeedback.$invalid" style="padding: 0.6em 1.2em;" id="btnSendFeedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Gửi phản hồi</button>
+                
 
             </div>
         </div>
