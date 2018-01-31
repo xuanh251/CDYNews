@@ -16,6 +16,10 @@ namespace CDYNews.Web.Mapping
             Mapper.CreateMap<PostCategory, PostCategoryViewModel>();
             Mapper.CreateMap<Tag, TagViewModel>();
             Mapper.CreateMap<Feedback, FeedbackViewModel>();
+
+            Mapper.CreateMap<ApplicationGroup, ApplicationGroupViewModel>();
+            Mapper.CreateMap<ApplicationRole, ApplicationRoleViewModel>();
+            Mapper.CreateMap<ApplicationUser, ApplicationUserViewModel>();
         }
             
     }

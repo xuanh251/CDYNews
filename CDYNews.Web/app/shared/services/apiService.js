@@ -14,8 +14,8 @@
             $http.delete(url, data).then(function (result) {
                 success(result);
             }, function (error) {
-                if (error.status === 401) {
-                    notificationService.displayError('Yêu cầu đăng nhập!');
+                if (error.status == 401) {
+                    notificationService.displayError('Bạn không đủ quyền truy cập!');
                 }
                 else if (failure != null) {
                     failure(error);
@@ -28,8 +28,8 @@
             $http.post(url, data).then(function (result) {
                 success(result);
             }, function (error) {
-                if (error.status === 401) {
-                    notificationService.displayError('Yêu cầu đăng nhập!');
+                if (error.status == 401) {
+                    notificationService.displayError('Bạn không đủ quyền truy cập!');
                 }
                 else if (failure != null) {
                     failure(error);
@@ -42,8 +42,8 @@
             $http.put(url, data).then(function (result) {
                 success(result);
             }, function (error) {
-                if (error.status === 401) {
-                    notificationService.displayError('Yêu cầu đăng nhập!');
+                if (error.status == 401) {
+                    notificationService.displayError('Bạn không đủ quyền truy cập!');
                 }
                 else if (failure != null) {
                     failure(error);
@@ -51,12 +51,17 @@
 
             });
         }
-        function get(url, para, success, failure) {
+        function get(url, params, success, failure) {
             authenticationService.setHeader();
-            $http.get(url, para).then(function (result) {
+            $http.get(url, params).then(function (result) {
                 success(result);
             }, function (error) {
-                failure(error);
+                if (error.status == 401) {
+                    notificationService.displayError('Bạn không đủ quyền truy cập!');
+                }
+                else if (failure != null) {
+                    failure(error);
+                }
             });
         }
     };

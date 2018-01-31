@@ -1,22 +1,19 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Mvc;
+﻿using Microsoft.Owin;
+using Owin;
 using Autofac;
+using System.Reflection;
 using CDYNews.Data.Infrastructure;
 using CDYNews.Data.Repositories;
 using CDYNews.Service;
-using Microsoft.Owin;
-using Owin;
+using System.Web.Mvc;
+using System.Web.Http;
+using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using CDYNews.Data;
 using Microsoft.AspNet.Identity;
 using CDYNews.Model.Models;
-using System.Web;
 using Microsoft.Owin.Security.DataProtection;
-using Autofac.Integration.WebApi;
-using Autofac.Integration.Mvc;
-using Autofac.Features.ResolveAnything;
+using System.Web;
 
 [assembly: OwinStartup(typeof(CDYNews.Web.App_Start.Startup))]
 
@@ -59,10 +56,11 @@ namespace CDYNews.Web.App_Start
             builder.RegisterAssemblyTypes(typeof(PostCategoryService).Assembly)
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
-            Autofac.IContainer container = builder.Build();
+
+            IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
-            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver((IContainer)container); //Set the WebApi DependencyResolver
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container); //Set the WebApi DependencyResolver
 
         }
     }

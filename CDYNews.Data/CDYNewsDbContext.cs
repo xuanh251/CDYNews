@@ -29,7 +29,6 @@ namespace CDYNews.Data
         public DbSet<ErrorLog> ErrorLogs { get; set; }
         public DbSet<Tag> Tags { set; get; }
         public DbSet<VisitorStatistic> VisitorStatistics { set; get; }
-
         public DbSet<ApplicationGroup> ApplicationGroups { get; set; }
         public DbSet<ApplicationRole> ApplicationRoles { get; set; }
         public DbSet<ApplicationRoleGroup> ApplicationRoleGroups { get; set; }
@@ -37,6 +36,7 @@ namespace CDYNews.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ContactDetail> ContactDetails { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+
         public static CDYNewsDbContext Create()
         {
             return new CDYNewsDbContext();

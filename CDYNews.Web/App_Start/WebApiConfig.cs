@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Web.Http;
-using CDYNews.Data.Repositories;
 using Microsoft.Owin.Security.OAuth;
 
 namespace CDYNews.Web
@@ -14,6 +10,7 @@ namespace CDYNews.Web
         {
             // Web API configuration and services
             // Web API routes
+           
             config.MapHttpAttributeRoutes();
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));

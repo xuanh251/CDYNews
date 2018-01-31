@@ -14,7 +14,7 @@ namespace CDYNews.Data.Repositories
     }
     public class ApplicationRoleGroupRepository : RepositoryBase<ApplicationRoleGroup>, IApplicationRoleGroupRepository
     {
-        protected ApplicationRoleGroupRepository(IDbFactory dbFactory) : base(dbFactory)
+        public ApplicationRoleGroupRepository(IDbFactory dbFactory) : base(dbFactory)
         {
         }
     }

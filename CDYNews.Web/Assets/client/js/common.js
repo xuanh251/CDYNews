@@ -21,7 +21,7 @@
     },
     registerEvents: function () {
         $("#txtKeyword").autocomplete({
-            minLength: 0,
+            minLength: 1,
             source: function (request, response) {
                 $.ajax({
                     url: "/Post/GetListProductByKeyWord",

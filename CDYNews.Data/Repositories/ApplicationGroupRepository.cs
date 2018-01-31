@@ -15,7 +15,7 @@ namespace CDYNews.Data.Repositories
     }
     public class ApplicationGroupRepository : RepositoryBase<ApplicationGroup>, IApplicationGroupRepository
     {
-        protected ApplicationGroupRepository(IDbFactory dbFactory) : base(dbFactory)
+        public ApplicationGroupRepository(IDbFactory dbFactory) : base(dbFactory)
         {
         }
 

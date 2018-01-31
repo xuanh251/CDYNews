@@ -14,7 +14,7 @@ namespace CDYNews.Data.Repositories
     }
     public class FeedbackRepository : RepositoryBase<Feedback>
     {
-        protected FeedbackRepository(IDbFactory dbFactory) : base(dbFactory)
+        public FeedbackRepository(IDbFactory dbFactory) : base(dbFactory)
         {
         }
     }

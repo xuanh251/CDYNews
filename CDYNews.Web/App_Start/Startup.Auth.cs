@@ -22,10 +22,11 @@ namespace CDYNews.Web.App_Start
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(CDYNewsDbContext.Create);
+
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
-
             app.CreatePerOwinContext<UserManager<ApplicationUser>>(CreateManager);
+
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/oauth/token"),
@@ -111,9 +112,6 @@ namespace CDYNews.Web.App_Start
                 }
             }
         }
-
-
-
         private static UserManager<ApplicationUser> CreateManager(IdentityFactoryOptions<UserManager<ApplicationUser>> options, IOwinContext context)
         {
             var userStore = new UserStore<ApplicationUser>(context.Get<CDYNewsDbContext>());
@@ -121,6 +119,4 @@ namespace CDYNews.Web.App_Start
             return owinManager;
         }
     }
-
-
 }
