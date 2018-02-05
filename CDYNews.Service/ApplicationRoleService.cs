@@ -2,11 +2,12 @@
 using CDYNews.Data.Infrastructure;
 using CDYNews.Data.Repositories;
 using CDYNews.Model.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using CDYNews.Data;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CDYNews.Service
 {
@@ -29,6 +30,8 @@ namespace CDYNews.Service
 
         //Get list role by group id
         IEnumerable<ApplicationRole> GetListRoleByGroupId(int groupId);
+        IEnumerable<ApplicationGroup> GetListGroupByRoleId(string roleId);
+        string GetNameOfRole(string roleId);
 
         void Save();
     }
@@ -36,14 +39,21 @@ namespace CDYNews.Service
     {
         private IApplicationRoleRepository _appRoleRepository;
         private IApplicationRoleGroupRepository _appRoleGroupRepository;
+        private IApplicationUserGroupRepository _appUserGroupRepository;
+        private IApplicationGroupRepository _appGroupRepository;
         private IUnitOfWork _unitOfWork;
 
         public ApplicationRoleService(IUnitOfWork unitOfWork,
-            IApplicationRoleRepository appRoleRepository, IApplicationRoleGroupRepository appRoleGroupRepository)
+            IApplicationRoleRepository appRoleRepository,
+            IApplicationRoleGroupRepository appRoleGroupRepository,
+            IApplicationUserGroupRepository appUserGroupRepository,
+            IApplicationGroupRepository appGroupRepository)
         {
-            this._appRoleRepository = appRoleRepository;
-            this._appRoleGroupRepository = appRoleGroupRepository;
-            this._unitOfWork = unitOfWork;
+            _appRoleRepository = appRoleRepository;
+            _appRoleGroupRepository = appRoleGroupRepository;
+            _appUserGroupRepository = appUserGroupRepository;
+            _appGroupRepository = appGroupRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public ApplicationRole Add(ApplicationRole appRole)
@@ -65,6 +75,9 @@ namespace CDYNews.Service
 
         public void Delete(string id)
         {
+
+            //var listRole = db.ApplicationRoles.Where(s => s.Id == id).ToList();
+            _appRoleGroupRepository.DeleteMulti(x => x.RoleId == id);
             _appRoleRepository.DeleteMulti(x => x.Id == id);
         }
 
@@ -103,6 +116,15 @@ namespace CDYNews.Service
         public IEnumerable<ApplicationRole> GetListRoleByGroupId(int groupId)
         {
             return _appRoleRepository.GetListRoleByGroupId(groupId);
+        }
+        public IEnumerable<ApplicationGroup> GetListGroupByRoleId(string roleId)
+        {
+            return _appGroupRepository.GetListGroupByRoleId(roleId);
+        }
+
+        public string GetNameOfRole(string roleId)
+        {
+            return _appRoleRepository.GetNameOfRole(roleId);
         }
     }
 }

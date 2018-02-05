@@ -6,6 +6,7 @@ using CDYNews.Web.App_Start;
 using CDYNews.Web.Infrastructure.Core;
 using CDYNews.Web.Infrastructure.Extensions;
 using CDYNews.Web.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,6 +156,19 @@ namespace CDYNews.Web.Api
                     var result = await _userManager.UpdateAsync(appUser);
                     if (result.Succeeded)
                     {
+                        //xoá các quyền cũ trong bảng UserRole
+                        var listOldGroupsByUser = _appGroupService.GetListGroupByUserId(appUser.Id).ToList();
+                        //duyệt qua danh sách từng group cũ
+                        foreach (var oldGroup in listOldGroupsByUser)
+                        {
+                            var listRolesByOldGroup = _appRoleService.GetListRoleByGroupId(oldGroup.ID).ToList();
+                            //duyệt qua và xoá tất cả quyền thuộc group đang xét
+                            foreach (var role in listRolesByOldGroup)
+                            {
+                                _userManager.RemoveFromRole(appUser.Id, role.Name);
+                            }
+                        }
+
                         var listAppUserGroup = new List<ApplicationUserGroup>();
                         foreach (var group in applicationUserViewModel.Groups)
                         {
@@ -167,8 +181,7 @@ namespace CDYNews.Web.Api
                             var listRole = _appRoleService.GetListRoleByGroupId(group.ID);
                             foreach (var role in listRole)
                             {
-                                await _userManager.RemoveFromRoleAsync(appUser.Id, role.Name);
-                                await _userManager.AddToRoleAsync(appUser.Id, role.Name);
+                                _userManager.AddToRole(appUser.Id, role.Name);
                             }
                         }
                         _appGroupService.AddUserToGroups(listAppUserGroup, applicationUserViewModel.Id);

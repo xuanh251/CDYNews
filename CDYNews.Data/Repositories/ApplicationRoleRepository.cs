@@ -8,6 +8,7 @@ namespace CDYNews.Data.Repositories
     public interface IApplicationRoleRepository : IRepository<ApplicationRole>
     {
         IEnumerable<ApplicationRole> GetListRoleByGroupId(int groupId);
+        string GetNameOfRole(string roleId);
     }
     public class ApplicationRoleRepository : RepositoryBase<ApplicationRole>, IApplicationRoleRepository
     {
@@ -16,13 +17,17 @@ namespace CDYNews.Data.Repositories
         }
         public IEnumerable<ApplicationRole> GetListRoleByGroupId(int groupId)
         {
-            var query = from g in DbContext.ApplicationRoles
-                        join ug in DbContext.ApplicationRoleGroups
-                        on g.Id equals ug.RoleId
-                        where ug.GroupId == groupId
-                        select g;
-            var a = query.ToList();
+            var query = from r in DbContext.ApplicationRoles
+                        join rg in DbContext.ApplicationRoleGroups
+                        on r.Id equals rg.RoleId
+                        where rg.GroupId == groupId
+                        select r;
             return query;
+        }
+
+        public string GetNameOfRole(string roleId)
+        {
+            return DbContext.Roles.Where(s => s.Id == roleId).Select(s => s.Name).SingleOrDefault();
         }
     }
 }

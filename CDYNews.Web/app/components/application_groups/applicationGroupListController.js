@@ -61,7 +61,7 @@
         }, true);
 
         function deleteItem(id) {
-            $ngBootbox.confirm('Bạn có chắc muốn xóa?')
+            $ngBootbox.confirm('Lưu ý!!! Việc này sẽ xoá toàn bộ người dùng và toàn bộ quyền thuộc nhóm người dùng này. Bạn có chắc muốn xóa?')
                 .then(function () {
                     var config = {
                         params: {

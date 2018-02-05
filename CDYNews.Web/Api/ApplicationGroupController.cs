@@ -15,6 +15,7 @@ using CDYNews.Web.Infrastructure.Core;
 using CDYNews.Web.Infrastructure.Extensions;
 using CDYNews.Web.Models;
 using Microsoft.AspNet.Identity;
+using System.Web.Security;
 
 namespace CDYNews.Web.Api
 {
@@ -43,8 +44,7 @@ namespace CDYNews.Web.Api
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
-                int totalRow = 0;
-                var model = _appGroupService.GetAll(page, pageSize, out totalRow, filter);
+                var model = _appGroupService.GetAll(page, pageSize, out int totalRow, filter);
                 IEnumerable<ApplicationGroupViewModel> modelVm = Mapper.Map<IEnumerable<ApplicationGroup>, IEnumerable<ApplicationGroupViewModel>>(model);
 
                 PaginationSet<ApplicationGroupViewModel> pagedSet = new PaginationSet<ApplicationGroupViewModel>()
@@ -101,7 +101,6 @@ namespace CDYNews.Web.Api
             if (ModelState.IsValid)
             {
                 var newAppGroup = new ApplicationGroup();
-                newAppGroup.Name = appGroupViewModel.Name;
                 try
                 {
                     var appGroup = _appGroupService.Add(newAppGroup);
@@ -119,17 +118,12 @@ namespace CDYNews.Web.Api
                     }
                     _appRoleService.AddRolesToGroup(listRoleGroup, appGroup.ID);
                     _appRoleService.Save();
-
-
                     return request.CreateResponse(HttpStatusCode.OK, appGroupViewModel);
-
-
                 }
                 catch (NameDuplicatedException dex)
                 {
                     return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
                 }
-
             }
             else
             {
@@ -178,7 +172,7 @@ namespace CDYNews.Web.Api
                             //xoá quyền cũ đi
                             foreach (var oldRoleName in listOldRoleName)
                             {
-                                _userManager.RemoveFromRole(user.Id, oldRoleName);
+                                _userManager.RemoveFromRole(user.Id,oldRoleName);
                             }
                         }
                         else
@@ -194,8 +188,6 @@ namespace CDYNews.Web.Api
                                     //ngược lại thì lấy ra danh sách các quyền của group đang duyệt
                                     var listCurrentRoles = _appRoleService.GetListRoleByGroupId(group.ID).ToList();
                                     var listCurrentRoleName = listCurrentRoles.Select(x => x.Name).ToArray();
-
-
                                     //duyệt qua danh sách quyền cũ
                                     foreach (var oldRoleName in listOldRoleName)
                                     {//duyệt qua danh sách quyền hiện tại
@@ -213,7 +205,6 @@ namespace CDYNews.Web.Api
                                             _userManager.RemoveFromRole(user.Id, oldRoleName);
                                         }
                                     }
-
                                 }
                             }
                         }

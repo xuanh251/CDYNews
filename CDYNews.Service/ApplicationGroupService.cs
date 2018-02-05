@@ -37,14 +37,17 @@ namespace CDYNews.Service
         private IApplicationGroupRepository _appGroupRepository;
         private IUnitOfWork _unitOfWork;
         private IApplicationUserGroupRepository _appUserGroupRepository;
+        private IApplicationRoleGroupRepository _appRoleGroupRepository;
 
         public ApplicationGroupService(IUnitOfWork unitOfWork,
             IApplicationUserGroupRepository appUserGroupRepository,
-            IApplicationGroupRepository appGroupRepository)
+            IApplicationGroupRepository appGroupRepository,
+            IApplicationRoleGroupRepository appRoleGroupRepository)
         {
-            this._appGroupRepository = appGroupRepository;
-            this._appUserGroupRepository = appUserGroupRepository;
-            this._unitOfWork = unitOfWork;
+            _appGroupRepository = appGroupRepository;
+            _appUserGroupRepository = appUserGroupRepository;
+            _appRoleGroupRepository = appRoleGroupRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public ApplicationGroup Add(ApplicationGroup appGroup)
@@ -56,7 +59,11 @@ namespace CDYNews.Service
 
         public ApplicationGroup Delete(int id)
         {
-            var appGroup = this._appGroupRepository.GetSingleById(id);
+            var appGroup = _appGroupRepository.GetSingleById(id);
+            //xoá các roles thuộc group
+            _appRoleGroupRepository.DeleteMulti(s => s.GroupId == id);
+            //xoá các user thuộc group
+            _appUserGroupRepository.DeleteMulti(s => s.GroupId == id);
             return _appGroupRepository.Delete(appGroup);
         }
 

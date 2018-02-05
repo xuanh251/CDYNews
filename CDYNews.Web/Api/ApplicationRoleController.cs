@@ -2,9 +2,11 @@
 using CDYNews.Common.Exceptions;
 using CDYNews.Model.Models;
 using CDYNews.Service;
+using CDYNews.Web.App_Start;
 using CDYNews.Web.Infrastructure.Core;
 using CDYNews.Web.Infrastructure.Extensions;
 using CDYNews.Web.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Script.Serialization;
+using System.Web.Security;
 
 namespace CDYNews.Web.Api
 {
@@ -20,11 +23,17 @@ namespace CDYNews.Web.Api
     public class ApplicationRoleController : ApiControllerBase
     {
         private IApplicationRoleService _appRoleService;
+        private IApplicationGroupService _appGroupService;
+        private ApplicationUserManager _userManager;
 
         public ApplicationRoleController(IErrorService errorService,
-            IApplicationRoleService appRoleService) : base(errorService)
+            IApplicationRoleService appRoleService,
+            IApplicationGroupService appGroupService,
+            ApplicationUserManager userManager) : base(errorService)
         {
             _appRoleService = appRoleService;
+            _appGroupService = appGroupService;
+            _userManager = userManager;
         }
 
         [Route("getlistpaging")]
@@ -136,6 +145,18 @@ namespace CDYNews.Web.Api
         [Route("delete")]
         public HttpResponseMessage Delete(HttpRequestMessage request, string id)
         {
+            var roleName = _appRoleService.GetNameOfRole(id);
+            var listGroupByRole = _appRoleService.GetListGroupByRoleId(id);
+            //duyệt qua danh sách các group có quyền đó
+            foreach (var group in listGroupByRole)
+            {
+                var listUserByGroup = _appGroupService.GetListUserByGroupId(group.ID);
+                //duyệt qua danh sách các user trong group để lấy userId
+                foreach (var user in listUserByGroup)
+                {
+                    _userManager.RemoveFromRole(user.Id, roleName);
+                }
+            }
             _appRoleService.Delete(id);
             _appRoleService.Save();
             return request.CreateResponse(HttpStatusCode.OK, id);

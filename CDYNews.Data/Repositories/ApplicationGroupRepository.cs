@@ -12,6 +12,7 @@ namespace CDYNews.Data.Repositories
     {
         IEnumerable<ApplicationGroup> GetListGroupByUserId(string userId);
         IEnumerable<ApplicationUser> GetListUserByGroupId(int groupId);
+        IEnumerable<ApplicationGroup> GetListGroupByRoleId(string roleId);
     }
     public class ApplicationGroupRepository : RepositoryBase<ApplicationGroup>, IApplicationGroupRepository
     {
@@ -37,6 +38,14 @@ namespace CDYNews.Data.Repositories
                         join ug in DbContext.ApplicationUserGroups
                         on g.ID equals ug.GroupId
                         where ug.UserId == userId
+                        select g;
+            return query;
+        }
+        public IEnumerable<ApplicationGroup> GetListGroupByRoleId(string roleId)
+        {
+            var query = from g in DbContext.ApplicationGroups
+                        from rg in DbContext.ApplicationRoleGroups.Where(s => s.GroupId == g.ID)
+                        where rg.RoleId == roleId
                         select g;
             return query;
         }
