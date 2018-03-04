@@ -18,7 +18,7 @@ namespace CDYNews.Data.Migrations
         protected override void Seed(CDYNewsDbContext context)
         {
             //addPage(context);
-            CreateContactDetail(context);
+            //CreateContactDetail(context);
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -32,7 +32,6 @@ namespace CDYNews.Data.Migrations
             //    UserName = "admin",
             //    Email = "lexuanhoang1997@gmail.com",
             //    EmailConfirmed = true,
-            //    Birthday = Convert.ToDateTime("21/12/1997"),
             //    FullName = "Le Xuan Hoang"
 
             //};
@@ -41,10 +40,16 @@ namespace CDYNews.Data.Migrations
 
             //if (!roleManager.Roles.Any())
             //{
-            //    roleManager.Create(new IdentityRole { Name = "Admin" });
-            //    roleManager.Create(new IdentityRole { Name = "User" });
+            //    roleManager.Create(new ApplicationRole { Name = "ViewUsers" });
+            //    roleManager.Create(new ApplicationRole { Name = "AddUsers" });
+            //    roleManager.Create(new ApplicationRole { Name = "UpdateUsers" });
+            //    roleManager.Create(new ApplicationRole { Name = "DeleteUsers" });
             //}
-
+            //if (!context.ApplicationGroups.Any())
+            //{
+            //    context.ApplicationGroups.Add(new ApplicationGroup { Name = "Admin" });
+            //    context.ApplicationGroups.Add(new ApplicationGroup { Name = "User" });
+            //}
             //var adminUser = manager.FindByEmail("lexuanhoang1997@gmail.com");
 
             //manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });

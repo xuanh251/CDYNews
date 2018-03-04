@@ -3,7 +3,7 @@ namespace CDYNews.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitDb : DbMigration
+    public partial class _001 : DbMigration
     {
         public override void Up()
         {
@@ -119,6 +119,88 @@ namespace CDYNews.Data.Migrations
                 .Index(t => t.ApplicationUser_Id);
             
             CreateTable(
+                "dbo.Comments",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Name = c.String(maxLength: 100),
+                        Email = c.String(maxLength: 150),
+                        Content = c.String(maxLength: 2000),
+                        CreatedDate = c.DateTime(),
+                        CreatedBy = c.String(),
+                        PostId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Posts", t => t.PostId, cascadeDelete: true)
+                .Index(t => t.PostId);
+            
+            CreateTable(
+                "dbo.Posts",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 256),
+                        Alias = c.String(nullable: false, maxLength: 256, unicode: false),
+                        CategoryID = c.Int(nullable: false),
+                        Image = c.String(maxLength: 256),
+                        Description = c.String(maxLength: 500),
+                        Content = c.String(),
+                        CreatedDate = c.DateTime(),
+                        CreatedBy = c.String(maxLength: 256),
+                        UpdatedDate = c.DateTime(),
+                        UpdatedBy = c.String(maxLength: 256),
+                        MetaKeyword = c.String(maxLength: 256),
+                        MetaDescription = c.String(maxLength: 256),
+                        Status = c.Boolean(nullable: false),
+                        HomeFlag = c.Boolean(),
+                        HotFlag = c.Boolean(),
+                        ViewCount = c.Int(),
+                        Tags = c.String(),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.PostCategories", t => t.CategoryID, cascadeDelete: true)
+                .Index(t => t.CategoryID);
+            
+            CreateTable(
+                "dbo.PostCategories",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 256),
+                        Alias = c.String(nullable: false, maxLength: 256, unicode: false),
+                        Description = c.String(maxLength: 500),
+                        ParentID = c.Int(),
+                        CreatedDate = c.DateTime(),
+                        CreatedBy = c.String(maxLength: 256),
+                        UpdatedDate = c.DateTime(),
+                        UpdatedBy = c.String(maxLength: 256),
+                        MetaKeyword = c.String(maxLength: 256),
+                        MetaDescription = c.String(maxLength: 256),
+                        Status = c.Boolean(nullable: false),
+                        DisplayOrder = c.Int(),
+                        Image = c.String(maxLength: 256),
+                        HomeFlag = c.Boolean(),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
+                "dbo.ContactDetails",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 250),
+                        Phone = c.String(maxLength: 50),
+                        Email = c.String(maxLength: 250),
+                        Address = c.String(maxLength: 250),
+                        Website = c.String(),
+                        Other = c.String(),
+                        Lat = c.Double(),
+                        Lng = c.Double(),
+                        Status = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
                 "dbo.ErrorLogs",
                 c => new
                     {
@@ -128,6 +210,20 @@ namespace CDYNews.Data.Migrations
                         CreatedDate = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.ID);
+            
+            CreateTable(
+                "dbo.Feedbacks",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 250),
+                        Email = c.String(maxLength: 250),
+                        Message = c.String(maxLength: 1000),
+                        UserInfo = c.String(),
+                        CreatedDate = c.DateTime(nullable: false),
+                        Status = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Footers",
@@ -180,55 +276,6 @@ namespace CDYNews.Data.Migrations
                         Status = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.ID);
-            
-            CreateTable(
-                "dbo.PostCategories",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 256),
-                        Alias = c.String(nullable: false, maxLength: 256, unicode: false),
-                        Description = c.String(maxLength: 500),
-                        ParentID = c.Int(),
-                        CreatedDate = c.DateTime(),
-                        CreatedBy = c.String(maxLength: 256),
-                        UpdatedDate = c.DateTime(),
-                        UpdatedBy = c.String(maxLength: 256),
-                        MetaKeyword = c.String(maxLength: 256),
-                        MetaDescription = c.String(maxLength: 256),
-                        Status = c.Boolean(nullable: false),
-                        DisplayOrder = c.Int(),
-                        Image = c.String(maxLength: 256),
-                        HomeFlag = c.Boolean(),
-                    })
-                .PrimaryKey(t => t.ID);
-            
-            CreateTable(
-                "dbo.Posts",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 256),
-                        Alias = c.String(nullable: false, maxLength: 256, unicode: false),
-                        CategoryID = c.Int(nullable: false),
-                        Image = c.String(maxLength: 256),
-                        Description = c.String(maxLength: 500),
-                        Content = c.String(),
-                        CreatedDate = c.DateTime(),
-                        CreatedBy = c.String(maxLength: 256),
-                        UpdatedDate = c.DateTime(),
-                        UpdatedBy = c.String(maxLength: 256),
-                        MetaKeyword = c.String(maxLength: 256),
-                        MetaDescription = c.String(maxLength: 256),
-                        Status = c.Boolean(nullable: false),
-                        HomeFlag = c.Boolean(),
-                        HotFlag = c.Boolean(),
-                        ViewCount = c.Int(),
-                        Tags = c.String(),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.PostCategories", t => t.CategoryID, cascadeDelete: true)
-                .Index(t => t.CategoryID);
             
             CreateTable(
                 "dbo.PostTags",
@@ -312,8 +359,9 @@ namespace CDYNews.Data.Migrations
             DropForeignKey("dbo.ApplicationUserRoles", "IdentityRole_Id", "dbo.ApplicationRoles");
             DropForeignKey("dbo.PostTags", "TagID", "dbo.Tags");
             DropForeignKey("dbo.PostTags", "PostID", "dbo.Posts");
-            DropForeignKey("dbo.Posts", "CategoryID", "dbo.PostCategories");
             DropForeignKey("dbo.Menus", "GroupID", "dbo.MenuGroups");
+            DropForeignKey("dbo.Comments", "PostId", "dbo.Posts");
+            DropForeignKey("dbo.Posts", "CategoryID", "dbo.PostCategories");
             DropForeignKey("dbo.ApplicationUserGroups", "UserId", "dbo.ApplicationUsers");
             DropForeignKey("dbo.ApplicationUserRoles", "ApplicationUser_Id", "dbo.ApplicationUsers");
             DropForeignKey("dbo.ApplicationUserLogins", "ApplicationUser_Id", "dbo.ApplicationUsers");
@@ -323,8 +371,9 @@ namespace CDYNews.Data.Migrations
             DropForeignKey("dbo.ApplicationRoleGroups", "GroupId", "dbo.ApplicationGroups");
             DropIndex("dbo.PostTags", new[] { "TagID" });
             DropIndex("dbo.PostTags", new[] { "PostID" });
-            DropIndex("dbo.Posts", new[] { "CategoryID" });
             DropIndex("dbo.Menus", new[] { "GroupID" });
+            DropIndex("dbo.Posts", new[] { "CategoryID" });
+            DropIndex("dbo.Comments", new[] { "PostId" });
             DropIndex("dbo.ApplicationUserLogins", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.ApplicationUserClaims", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.ApplicationUserGroups", new[] { "GroupId" });
@@ -339,13 +388,16 @@ namespace CDYNews.Data.Migrations
             DropTable("dbo.Slides");
             DropTable("dbo.Tags");
             DropTable("dbo.PostTags");
-            DropTable("dbo.Posts");
-            DropTable("dbo.PostCategories");
             DropTable("dbo.Pages");
             DropTable("dbo.Menus");
             DropTable("dbo.MenuGroups");
             DropTable("dbo.Footers");
+            DropTable("dbo.Feedbacks");
             DropTable("dbo.ErrorLogs");
+            DropTable("dbo.ContactDetails");
+            DropTable("dbo.PostCategories");
+            DropTable("dbo.Posts");
+            DropTable("dbo.Comments");
             DropTable("dbo.ApplicationUserLogins");
             DropTable("dbo.ApplicationUserClaims");
             DropTable("dbo.ApplicationUsers");

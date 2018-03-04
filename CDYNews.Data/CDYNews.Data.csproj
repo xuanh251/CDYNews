@@ -61,49 +61,9 @@
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201801091404474_InitDb.cs" />
-    <Compile Include="Migrations\201801091404474_InitDb.Designer.cs">
-      <DependentUpon>201801091404474_InitDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801170700523_update_Page.cs" />
-    <Compile Include="Migrations\201801170700523_update_Page.Designer.cs">
-      <DependentUpon>201801170700523_update_Page.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801170701396_update_Page1.cs" />
-    <Compile Include="Migrations\201801170701396_update_Page1.Designer.cs">
-      <DependentUpon>201801170701396_update_Page1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801190037154_addCommentTable.cs" />
-    <Compile Include="Migrations\201801190037154_addCommentTable.Designer.cs">
-      <DependentUpon>201801190037154_addCommentTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801212110078_updatePostTag.cs" />
-    <Compile Include="Migrations\201801212110078_updatePostTag.Designer.cs">
-      <DependentUpon>201801212110078_updatePostTag.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801221550535_addTableContactDetail.cs" />
-    <Compile Include="Migrations\201801221550535_addTableContactDetail.Designer.cs">
-      <DependentUpon>201801221550535_addTableContactDetail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801231825103_modifiedContactDetail.cs" />
-    <Compile Include="Migrations\201801231825103_modifiedContactDetail.Designer.cs">
-      <DependentUpon>201801231825103_modifiedContactDetail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801241258395_addTableFeedback.cs" />
-    <Compile Include="Migrations\201801241258395_addTableFeedback.Designer.cs">
-      <DependentUpon>201801241258395_addTableFeedback.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801242010133_updFeedback.cs" />
-    <Compile Include="Migrations\201801242010133_updFeedback.Designer.cs">
-      <DependentUpon>201801242010133_updFeedback.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801242033351_fb2.cs" />
-    <Compile Include="Migrations\201801242033351_fb2.Designer.cs">
-      <DependentUpon>201801242033351_fb2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801242047033_fb3.cs" />
-    <Compile Include="Migrations\201801242047033_fb3.Designer.cs">
-      <DependentUpon>201801242047033_fb3.cs</DependentUpon>
+    <Compile Include="Migrations\201803040843508_001.cs" />
+    <Compile Include="Migrations\201803040843508_001.Designer.cs">
+      <DependentUpon>201803040843508_001.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,40 +101,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801091404474_InitDb.resx">
-      <DependentUpon>201801091404474_InitDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801170700523_update_Page.resx">
-      <DependentUpon>201801170700523_update_Page.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801170701396_update_Page1.resx">
-      <DependentUpon>201801170701396_update_Page1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801190037154_addCommentTable.resx">
-      <DependentUpon>201801190037154_addCommentTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801212110078_updatePostTag.resx">
-      <DependentUpon>201801212110078_updatePostTag.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801221550535_addTableContactDetail.resx">
-      <DependentUpon>201801221550535_addTableContactDetail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801231825103_modifiedContactDetail.resx">
-      <DependentUpon>201801231825103_modifiedContactDetail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801241258395_addTableFeedback.resx">
-      <DependentUpon>201801241258395_addTableFeedback.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801242010133_updFeedback.resx">
-      <DependentUpon>201801242010133_updFeedback.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801242033351_fb2.resx">
-      <DependentUpon>201801242033351_fb2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801242047033_fb3.resx">
-      <DependentUpon>201801242047033_fb3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803040843508_001.resx">
+      <DependentUpon>201803040843508_001.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

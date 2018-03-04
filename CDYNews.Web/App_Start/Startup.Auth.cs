@@ -10,6 +10,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CDYNews.Data;
 using CDYNews.Model.Models;
+using CDYNews.Service;
+using System.Linq;
 
 [assembly: OwinStartup(typeof(CDYNews.Web.App_Start.Startup))]
 
@@ -17,6 +19,8 @@ namespace CDYNews.Web.App_Start
 {
     public partial class Startup
     {
+        
+        
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -73,6 +77,7 @@ namespace CDYNews.Web.App_Start
         }
         public class AuthorizationServerProvider : OAuthAuthorizationServerProvider
         {
+            CDYNewsDbContext db = new CDYNewsDbContext();
             public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
             {
                 context.Validated();
@@ -87,18 +92,37 @@ namespace CDYNews.Web.App_Start
 
                 UserManager<ApplicationUser> userManager = context.OwinContext.GetUserManager<UserManager<ApplicationUser>>();
                 ApplicationUser user;
+                string GroupName = null;
                 try
                 {
-                    user = await userManager.FindAsync(context.UserName, context.Password);
+                    user = userManager.Find(context.UserName, context.Password);
+                    var ListUserGroup = db.ApplicationUserGroups.Where(s => s.UserId == user.Id).ToList();
+                    foreach (var group in ListUserGroup)
+                    {
+                        var gname= db.ApplicationGroups.Where(s => s.ID == group.GroupId && s.Name == "Admin").Select(s => s.Name).FirstOrDefault();
+                        if (gname!=null)
+                        {
+                            GroupName = gname;
+                            break;
+                        }
+                    }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    var err = ex.ToString();
                     // Could not retrieve the user due to error.
                     context.SetError("server_error");
                     context.Rejected();
                     return;
                 }
-                if (user != null)
+               
+                if (GroupName==null)
+                {
+                    context.SetError("Tài khoản không có quyền đăng nhập quản trị.");
+                    context.Rejected();
+                    return;
+                }
+                else if (user != null)
                 {
                     ClaimsIdentity identity = await userManager.CreateIdentityAsync(
                                                            user,
@@ -109,6 +133,7 @@ namespace CDYNews.Web.App_Start
                 {
                     context.SetError("invalid_grant", "Tài khoản hoặc mật khẩu không đúng.'");
                     context.Rejected();
+                    return;
                 }
             }
         }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CDYNews.Model.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 
 
 namespace CDYNews.Data
@@ -43,7 +44,7 @@ namespace CDYNews.Data
         }
         protected override void OnModelCreating(DbModelBuilder builder)
         {
-            builder.Entity<IdentityUserRole>().HasKey(s => new { s.RoleId, s.UserId }).ToTable("ApplicationUserRoles");
+            builder.Entity<IdentityUserRole>().HasKey(s => new { s.RoleId, s.UserId}).ToTable("ApplicationUserRoles");
             builder.Entity<IdentityUserLogin>().HasKey(s => s.UserId).ToTable("ApplicationUserLogins");
             builder.Entity<IdentityRole>().ToTable("ApplicationRoles");
             builder.Entity<IdentityUserClaim>().HasKey(s => s.UserId).ToTable("ApplicationUserClaims");

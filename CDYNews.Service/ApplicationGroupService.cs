@@ -25,6 +25,7 @@ namespace CDYNews.Service
         ApplicationGroup Delete(int id);
 
         bool AddUserToGroups(IEnumerable<ApplicationUserGroup> groups, string userId);
+        int AddUserToGroup(string userId);
 
         IEnumerable<ApplicationGroup> GetListGroupByUserId(string userId);
 
@@ -32,7 +33,7 @@ namespace CDYNews.Service
 
         void Save();
     }
-    public class ApplicationGroupService:IApplicationGroupService
+    public class ApplicationGroupService : IApplicationGroupService
     {
         private IApplicationGroupRepository _appGroupRepository;
         private IUnitOfWork _unitOfWork;
@@ -117,6 +118,17 @@ namespace CDYNews.Service
         public IEnumerable<ApplicationUser> GetListUserByGroupId(int groupId)
         {
             return _appGroupRepository.GetListUserByGroupId(groupId);
+        }
+
+        public int AddUserToGroup(string userId)
+        {
+            var group = new ApplicationUserGroup()
+            {
+                GroupId = _appGroupRepository.GetSingleByCondition(s => s.Name == "User").ID,
+                UserId = userId
+            };
+            _appUserGroupRepository.Add(group);
+            return group.GroupId;
         }
     }
 }

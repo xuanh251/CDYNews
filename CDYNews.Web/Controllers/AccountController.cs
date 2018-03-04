@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CDYNews.Service;
 
 namespace CDYNews.Web.Controllers
 {
@@ -22,11 +23,18 @@ namespace CDYNews.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IApplicationGroupService _appGroupService;
+        private IApplicationRoleService _appRoleService;
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager,
+                                 ApplicationSignInManager signInManager,
+                                 IApplicationGroupService appGroupService,
+                                 IApplicationRoleService appRoleService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _appGroupService = appGroupService;
+            _appRoleService = appRoleService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -69,7 +77,7 @@ namespace CDYNews.Web.Controllers
             ViewBag.ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await _userManager.FindAsync(model.UserName, model.Password); 
+                ApplicationUser user = await _userManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
                     IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
@@ -108,7 +116,7 @@ namespace CDYNews.Web.Controllers
                 var userByEmail = await _userManager.FindByEmailAsync(model.Email);
                 if (userByEmail != null)
                 {
-                    ModelState.AddModelError("email","Email đã tồn tại");
+                    ModelState.AddModelError("email", "Email đã tồn tại");
                     ViewData["ErrorMsg"] = "Có lỗi xảy ra!";
                     return View(model);
                 }
@@ -127,11 +135,20 @@ namespace CDYNews.Web.Controllers
                     Birthday = DateTime.Now,
                     FullName = model.FullName,
                     PhoneNumber = model.PhoneNumber,
-                    Address=model.Address
+                    Address = model.Address
 
                 };
                 await _userManager.CreateAsync(user, model.Password);
-                if (userByEmail != null) await _userManager.AddToRolesAsync(userByEmail.Id, new string[] { "User" });
+
+                var groupId=_appGroupService.AddUserToGroup(user.Id);
+                var listRole = _appRoleService.GetListRoleByGroupId(groupId);
+                _appRoleService.Save();
+                foreach (var role in listRole)
+                {
+                    await _userManager.RemoveFromRoleAsync(user.Id, role.Name);
+                    await _userManager.AddToRoleAsync(user.Id, role.Name);
+                }
+
                 ViewData["SuccessMsg"] = "Đăng ký thành công!";
                 MailHelper.SendMail(model.Email, "Đăng ký tài khoản thành công!", "Chúc mừng bạn đã trở thành thành viên chính thức của website chúng tôi!");
             }
@@ -139,7 +156,7 @@ namespace CDYNews.Web.Controllers
             {
                 ViewData["ErrorMsg"] = "Có lỗi xảy ra!";
             }
-            
+
             return View(model);
         }
         [Authorize]
